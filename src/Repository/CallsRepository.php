@@ -77,4 +77,62 @@ class CallsRepository
         return $d;
     }
 
+    function calls_summary($date){
+        $did = $this->conn->fetchAssoc("select count(1) cn  from  queue_log 
+                                            where date_format(time,'%Y-%m-%d')=? and event='DID' ",[$date]);
+        $answered_calls = $this->conn->fetchAssoc("select count(1) cn  from  queue_log 
+                                                        where date_format(time,'%Y-%m-%d')=? and event='CONNECT'",[$date]);
+
+        $abandon = $this->conn->fetchAssoc("select count(1) cn  from  queue_log         
+                                                where date_format(time,'%Y-%m-%d')=? and event='ABANDON'",[$date]);
+
+        $rejected_calls = $this->conn->fetchAssoc("select count(1) cn  from  queue_log 
+                                                        where date_format(time,'%Y-%m-%d')=? and event='AGENTDUMP'",[$date]);
+
+        $not_aswered  = $this->conn->fetchAssoc("select count(1) cn  from  queue_log 
+                                                      where date_format(time,'%Y-%m-%d')=? and event='RINGNOANSWER'",[$date]);
+//        $mid_wait_time = $this->conn->fetchAssoc("select sum(convert(data1,int))/count(1) as val
+//                                                       from  queue_log
+//                                                       where date_format(time,'%Y-%m-%d')=? and event='CONNECT'",[$date]);
+
+        $mid_wait_time = $this->conn->fetchAssoc(" SELECT
+                                                         sum(convert(COALESCE(t_connect.data1, abandon.data3),int))/count(1) as val
+                                                    FROM queue_log as input_call
+                                                    LEFT JOIN queue_log as t_connect on(t_connect.callid=input_call.callid
+                                                                                        and t_connect.event='CONNECT' )
+                                                    LEFT JOIN queue_log as abandon on(abandon.callid=input_call.callid
+                                                                                    and abandon.event='ABANDON')
+                                                    where 
+                                                        date_format(input_call.time,'%Y-%m-%d')=? and input_call.event='DID'  ", [$date]);
+
+//        $max_wait_time = $this->conn->fetchAssoc("select max(convert(data1,int)) as val  from  queue_log
+//                                                       where date_format(time,'%Y-%m-%d')=? and event='CONNECT'",[$date]);
+        $max_wait_time  = $this->conn->fetchAssoc(" SELECT
+                                                         max(convert(COALESCE(t_connect.data1, abandon.data3),int)) as val
+                                                    FROM queue_log as input_call
+                                                    LEFT JOIN queue_log as t_connect on(t_connect.callid=input_call.callid
+                                                                                        and t_connect.event='CONNECT' )
+                                                    LEFT JOIN queue_log as abandon on(abandon.callid=input_call.callid
+                                                                                    and abandon.event='ABANDON')
+                                                    where 
+                                                        date_format(input_call.time,'%Y-%m-%d')=? and input_call.event='DID' ",[$date]);
+
+        $mid_call_time = $this->conn->fetchAssoc("select sum(convert(data2,int))/count(1) as val from  queue_log 
+                                                      where date_format(time,'%Y-%m-%d')=? 
+                                                      and event in ('COMPLETEAGENT','COMPLETECALLER' ) ",[$date]);
+
+        $data = [
+            'calls' => $did['cn'],
+            'answered_calls' => $answered_calls['cn'],
+            'abandon' => $abandon['cn'],
+            'rejected_calls' => $rejected_calls['cn'],
+            'not_aswered' => $not_aswered['cn'],
+            'mid_wait_time' => $mid_wait_time['val'],
+            'max_wait_time' => $max_wait_time['val'],
+            'mid_call_time' => $mid_call_time['val']
+        ];
+
+        return $data;
+    }
+
 }

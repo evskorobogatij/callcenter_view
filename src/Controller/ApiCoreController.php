@@ -38,4 +38,15 @@ class ApiCoreController extends AbstractController
         return $this->json($data);
     }
 
+    /**
+     * @Route("/calls_summary/{date}")
+     * @param $date
+     * @param CallsRepository $callsRepository
+     * @return JsonResponse
+     */
+    public function calls_summary($date,CallsRepository $callsRepository):JsonResponse{
+        $data = $callsRepository->calls_summary($date);
+        return $this->json($data);
+    }
+
 }
