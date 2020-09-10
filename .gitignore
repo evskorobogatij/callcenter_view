@@ -14,3 +14,14 @@
 /.env
 /.idea
 /bin
+/node_modules
+
+
+###> symfony/webpack-encore-bundle ###
+/node_modules/
+/public/build/
+npm-debug.log
+yarn-error.log
+yarn.lock
+package-lock.json
+###< symfony/webpack-encore-bundle ###

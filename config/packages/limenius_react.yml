@@ -1,0 +1,8 @@
+limenius_react:
+  default_rendering: "both"
+  serverside_rendering:
+    fail_loud: false
+    trace: false
+    mode: "phpexecjs"
+    server_bundle_path: "%kernel.project_dir%/var/webpack/server-bundle.js"
+    server_socket_path: null
