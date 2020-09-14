@@ -96,7 +96,7 @@ class CallsRepository
 //                                                       where date_format(time,'%Y-%m-%d')=? and event='CONNECT'",[$date]);
 
         $mid_wait_time = $this->conn->fetchAssoc(" SELECT
-                                                         sum(convert(COALESCE(t_connect.data1, abandon.data3),int))/count(1) as val
+                                                         round( sum(convert(COALESCE(t_connect.data1, abandon.data3),int))/count(1) , 1) as val
                                                     FROM queue_log as input_call
                                                     LEFT JOIN queue_log as t_connect on(t_connect.callid=input_call.callid
                                                                                         and t_connect.event='CONNECT' )
@@ -117,7 +117,7 @@ class CallsRepository
                                                     where 
                                                         date_format(input_call.time,'%Y-%m-%d')=? and input_call.event='DID' ",[$date]);
 
-        $mid_call_time = $this->conn->fetchAssoc("select sum(convert(data2,int))/count(1) as val from  queue_log 
+        $mid_call_time = $this->conn->fetchAssoc("select round( sum(convert(data2,int))/count(1) , 1) as val from  queue_log 
                                                       where date_format(time,'%Y-%m-%d')=? 
                                                       and event in ('COMPLETEAGENT','COMPLETECALLER' ) ",[$date]);
 

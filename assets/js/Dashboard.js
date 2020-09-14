@@ -5,10 +5,13 @@ import moment from 'moment';
 
 // import {} from "./components/Card/Card"
 import {Card as TelCard} from "./components/Card/Card";
+import {TelBox} from "./components/TelBox/TelBox";
 
 import {Card} from 'primereact/card'
 import { DataTable } from 'primereact/datatable'
 import {Column} from "primereact/column";
+
+import './Dashboard.scss';
 
 export default function Dashboard(props) {
 
@@ -16,7 +19,12 @@ export default function Dashboard(props) {
         calls : 0,
         answered_calls: 0,
         abandon: 0,
-        rejected_calls: 0
+        rejected_calls: 0,
+        not_aswered: 0,
+        mid_wait_time: 0,
+        mid_call_time: 0,
+        max_wait_time: 0
+
     });
 
     const [notAnswerAgents,setNotAnsweredAgents] = React.useState([])
@@ -69,6 +77,24 @@ export default function Dashboard(props) {
                         </DataTable>
                     </Card>
                 </div>
+
+                <div className="p-col p-fluid sub-box" >
+                    <div className="p-col-12 p-md-6 p-lg-6">
+                        <TelBox title={"Не отвечено звонков"} value={callsStatus.not_aswered} />
+                    </div>
+                    <div className="p-col-12 p-md-6 p-lg-6">
+                        <TelBox title={"Среднее время ожидания"} value={callsStatus.mid_wait_time} />
+                    </div>
+
+                    <div className="p-col-12 p-md-6 p-lg-6">
+                        <TelBox title={"Среднее время разговора"} value={callsStatus.mid_call_time} />
+                    </div>
+
+                    <div className="p-col-12 p-md-6 p-lg-6">
+                        <TelBox title={"Максимальное время ожидания"}  value={callsStatus.max_wait_time} />
+                    </div>
+                </div>
+
 
             </div>
 
