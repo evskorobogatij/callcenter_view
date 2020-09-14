@@ -72,7 +72,7 @@ class CallsRepository
     }
 
     function not_answer($date){
-        $str = "select agent, count(1)  from  queue_log where date_format(time,'%Y-%m-%d')=? and event='RINGNOANSWER' group by agent ";
+        $str = "select agent, count(1) count  from  queue_log where date_format(time,'%Y-%m-%d')=? and event='RINGNOANSWER' group by agent ";
         $d = $this->conn->fetchAll($str,[$date]);
         return $d;
     }

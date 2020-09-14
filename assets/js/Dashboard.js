@@ -7,6 +7,8 @@ import moment from 'moment';
 import {Card as TelCard} from "./components/Card/Card";
 
 import {Card} from 'primereact/card'
+import { DataTable } from 'primereact/datatable'
+import {Column} from "primereact/column";
 
 export default function Dashboard(props) {
 
@@ -16,6 +18,9 @@ export default function Dashboard(props) {
         abandon: 0,
         rejected_calls: 0
     });
+
+    const [notAnswerAgents,setNotAnsweredAgents] = React.useState([])
+
 
     console.log(props)
     const s = "ddd"
@@ -27,6 +32,7 @@ export default function Dashboard(props) {
         let s_date = moment(props.date).format("YYYY-MM-DD");
         console.log(s_date)
         fetch(`/api/calls_summary/${s_date}`).then(response => response.json()).then(result => setCallsStatus(result))
+        fetch(`/api/not_answer_agents/${s_date}`).then(response => response.json()).then(result =>setNotAnsweredAgents(result))
     },[props.date])
 
     React.useEffect(()=>{
@@ -51,6 +57,18 @@ export default function Dashboard(props) {
                     <TelCard title={"Отклонено"} detail={"Оператор отклонил звонок"} call_type={'abandon'} count={callsStatus.rejected_calls}/>
                 </div>
 
+                <div className="p-col-12 p-lg-6">
+                    <Card title={"Неотвечающие операторы"} >
+                        <DataTable
+                            value={notAnswerAgents}
+                            // header={"Список неотвечающих опереторов"}
+                            removableSort
+                        >
+                            <Column field={'agent'} header={'Оператор'} />
+                            <Column field={'count'} header={'Кол-во'} sortable />
+                        </DataTable>
+                    </Card>
+                </div>
 
             </div>
 
