@@ -57,6 +57,7 @@ export default function CallsList(props) {
                        onRowClick={e => rowClicked(e)}
                        dataKey={'callid'}
                        scrollable scrollHeight="80vh"
+                       className="p-datatable-striped"
             >
                 <Column field={'time'} header={'Время'} />
                 <Column field={'phone'} header={'Телефон'} />
