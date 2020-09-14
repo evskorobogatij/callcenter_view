@@ -32,18 +32,27 @@ export default function Dashboard(props) {
 
     const [notAnswerAgents,setNotAnsweredAgents] = React.useState([])
 
+    const [timer,setTimer] = React.useState(null)
 
     console.log(props)
     const s = "ddd"
 
-    React.useEffect(()=>{
-        console.log('date changed',props.date)
-        // console.log(props.date.toISOString())
-
+    const getCallsData = () => {
         let s_date = moment(props.date).format("YYYY-MM-DD");
         console.log(s_date)
         fetch(`/api/calls_summary/${s_date}`).then(response => response.json()).then(result => setCallsStatus(result))
         fetch(`/api/not_answer_agents/${s_date}`).then(response => response.json()).then(result =>setNotAnsweredAgents(result))
+    }
+
+    React.useEffect(()=>{
+        let s_date = moment(props.date).format("YYYY-MM-DD");
+        let c_date = moment().format("YYYY-MM-DD");
+        if (s_date===c_date)
+            setTimer(setInterval(getCallsData,5000))
+        else
+            clearInterval(timer)
+
+        getCallsData()
     },[props.date])
 
     React.useEffect(()=>{
