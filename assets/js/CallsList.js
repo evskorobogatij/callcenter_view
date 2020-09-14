@@ -63,7 +63,7 @@ export default function CallsList(props) {
                 <Column field={'time'} header={'Время'}  sortable />
                 <Column field={'phone'} header={'Телефон'} />
                 <Column field={'queuename'} header={'Очередь'} />
-                <Column field={'pos'} header={'Позиция'} />
+                <Column field={'pos'} header={'Позиция'} sortable />
                 <Column field={'input_phone'} header={'Входной номер'} />
                 <Column field={'agent'} header={'Оператор'} />
                 <Column field={'wait'} header={'Ожидание'} body={waitTemplate} sortable />
