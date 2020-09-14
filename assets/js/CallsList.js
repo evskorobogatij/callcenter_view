@@ -58,16 +58,18 @@ export default function CallsList(props) {
                        dataKey={'callid'}
                        scrollable scrollHeight="80vh"
                        className="p-datatable-striped"
+                       removableSort
             >
-                <Column field={'time'} header={'Время'} />
+                <Column field={'time'} header={'Время'}  sortable />
                 <Column field={'phone'} header={'Телефон'} />
                 <Column field={'queuename'} header={'Очередь'} />
                 <Column field={'pos'} header={'Позиция'} />
                 <Column field={'input_phone'} header={'Входной номер'} />
                 <Column field={'agent'} header={'Оператор'} />
-                <Column field={'wait'} header={'Ожидание'} body={waitTemplate} />
-                <Column field={'calltime'} header={'Разговор'} body={calltimeTemplate} />
+                <Column field={'wait'} header={'Ожидание'} body={waitTemplate} sortable />
+                <Column field={'calltime'} header={'Разговор'} body={calltimeTemplate} sortable />
                 <Column field={'d_type'} header={'Результат звонка'}
+                        sortable
                         // filter
                         // filterElement={resultFilter}
                 />
