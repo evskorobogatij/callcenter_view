@@ -11,7 +11,10 @@ import {Card} from 'primereact/card'
 import { DataTable } from 'primereact/datatable'
 import {Column} from "primereact/column";
 
+import {format_minutes} from './lib/common'
+
 import './Dashboard.scss';
+
 
 export default function Dashboard(props) {
 
@@ -83,15 +86,15 @@ export default function Dashboard(props) {
                         <TelBox title={"Не отвечено звонков"} value={callsStatus.not_aswered} />
                     </div>
                     <div className="p-col-12 p-md-6 p-lg-6">
-                        <TelBox title={"Среднее время ожидания"} value={callsStatus.mid_wait_time} />
+                        <TelBox title={"Среднее время ожидания"} value={format_minutes(callsStatus.mid_wait_time)} />
                     </div>
 
                     <div className="p-col-12 p-md-6 p-lg-6">
-                        <TelBox title={"Среднее время разговора"} value={callsStatus.mid_call_time} />
+                        <TelBox title={"Среднее время разговора"} value={format_minutes(callsStatus.mid_call_time)} />
                     </div>
 
                     <div className="p-col-12 p-md-6 p-lg-6">
-                        <TelBox title={"Максимальное время ожидания"}  value={callsStatus.max_wait_time} />
+                        <TelBox title={"Максимальное время ожидания"}  value={format_minutes(callsStatus.max_wait_time)} />
                     </div>
                 </div>
 
