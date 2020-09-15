@@ -78,9 +78,11 @@ export default function CallsList(props) {
                        scrollable scrollHeight="80vh"
                        className="p-datatable-striped"
                        removableSort
+                       resizableColumns
+                       columnResizeMode="fit"
             >
                 <Column field={'time'} header={'Время'} body={timeTemplate}  sortable />
-                <Column field={'phone'} header={'Телефон'} />
+                <Column field={'phone'} header={'Телефон'} filter filterPlaceholder="по номеру" />
                 <Column field={'queuename'} header={'Очередь'} />
                 <Column field={'pos'} header={'Позиция'} sortable />
                 <Column field={'input_phone'} header={'Входной номер'} />
