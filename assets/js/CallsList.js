@@ -138,6 +138,7 @@ export default function CallsList(props) {
                        currentPageReportTemplate="Показано записей от {first} до {last} из {totalRecords} "
                        rowsPerPageOptions={[10,25,50]}
                        sortMode="multiple"
+                       loading={callList.length===0}
             >
                 <Column fiel={'agentdump_num'} body={agentDumpTemplate} style={{width:'48px'}}  />
                 <Column field={'time'} header={'Время'} body={timeTemplate}  sortable />
