@@ -7,6 +7,8 @@ import {Dropdown} from "primereact/dropdown";
 
 import {format_minutes} from './lib/common'
 
+import './CallsList.scss';
+
 export default function CallsList(props) {
 
     const [callList, setCallList] = React.useState([])
@@ -73,6 +75,18 @@ export default function CallsList(props) {
         )
     }
 
+    const agentDumpTemplate =(data)=>{
+        if (data.agentdump_num)
+            return (
+                <>
+                            <span className={'AgentBadgeDump'}>{data.agentdump_num}</span>
+                </>
+            )
+        else {
+            return (<></>)
+        }
+    }
+
     const calltimeTemplate=(data)=>{
         return (
             <>
@@ -104,6 +118,7 @@ export default function CallsList(props) {
                        // resizableColumns
                        // columnResizeMode="fit"
             >
+                <Column fiel={'agentdump_num'} body={agentDumpTemplate} style={{width:'48px'}}  />
                 <Column field={'time'} header={'Время'} body={timeTemplate}  sortable />
                 <Column field={'phone'} header={'Телефон'} filter filterPlaceholder="по номеру" />
                 <Column field={'queuename'} header={'Очередь'} />
