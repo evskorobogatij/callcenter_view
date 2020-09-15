@@ -10,6 +10,7 @@ import {format_minutes} from './lib/common'
 export default function CallsList(props) {
 
     const [callList, setCallList] = React.useState([])
+    const [timer,setTimer] = React.useState(null)
 
     const [selectedStatus,setSelectedStatus] = React.useState('')
     const statuses = [
@@ -18,10 +19,20 @@ export default function CallsList(props) {
         'Пропушеный вызов'
     ]
 
-    React.useEffect(()=>{
+    const getCallsList = () => {
         let s_date = moment(props.date).format("YYYY-MM-DD");
         console.log(s_date)
         fetch(`/api/calls_list/${s_date}`).then(response => response.json()).then(result=>setCallList(result))
+    }
+
+    React.useEffect(()=>{
+        let s_date = moment(props.date).format("YYYY-MM-DD");
+        let c_date = moment().format("YYYY-MM-DD");
+        (s_date===c_date) ?
+            setTimer(setInterval(getCallsList,120000))
+         :  clearInterval(timer)
+        
+        getCallsList()
     },[props.date])
 
     const rowClicked = (e) => {
