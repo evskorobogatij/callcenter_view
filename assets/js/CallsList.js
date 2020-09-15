@@ -35,6 +35,7 @@ export default function CallsList(props) {
     }
 
     React.useEffect(()=>{
+        setCallList([])
         let s_date = moment(props.date).format("YYYY-MM-DD");
         let c_date = moment().format("YYYY-MM-DD");
         (s_date===c_date) ?
