@@ -117,11 +117,16 @@ export default function CallsList(props) {
                        // removableSort
                        // resizableColumns
                        // columnResizeMode="fit"
+                       paginatorRight
+                       paginatorTemplate = "FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
+                       currentPageReportTemplate="Показано записей от {first} до {last} из {totalRecords} "
+                       rowsPerPageOptions={[10,25,50]}
+                       sortMode="multiple"
             >
                 <Column fiel={'agentdump_num'} body={agentDumpTemplate} style={{width:'48px'}}  />
                 <Column field={'time'} header={'Время'} body={timeTemplate}  sortable />
                 <Column field={'phone'} header={'Телефон'} filter filterPlaceholder="по номеру" />
-                <Column field={'queuename'} header={'Очередь'} />
+                <Column field={'queuename'} header={'Очередь'}  />
                 <Column field={'pos'} header={'Позиция'} sortable />
                 <Column field={'input_phone'} header={'Входной номер'} />
                 <Column field={'agent'} header={'Оператор'} filter filterElement={agentFilter} />
