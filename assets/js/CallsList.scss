@@ -11,3 +11,24 @@
   font-weight: bold;
   float: left;
 }
+
+.NotAnswerBadge {
+  color: white;
+
+  margin: 2px;
+  width: 100%;
+  height: 24px;
+  display: block;
+  border-radius: 4px;
+  text-align: center;
+  font-weight: bold;
+  float: left;
+}
+
+.NotAnswerBadge-few {
+  background-color: #20d077;
+}
+
+.NotAnswerBadge-many {
+  background-color: #ef6262
+}

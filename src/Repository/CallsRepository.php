@@ -22,6 +22,7 @@ class CallsRepository
         $str = "      
              SELECT
                 agentdump.num as agentdump_num,
+                notawnser.count as notanswer_num,
                 input_call.time, input_call.callid, 
                 enter.data2 as phone,
                 input_call.queuename, input_call.data1 as input_phone,
@@ -71,6 +72,10 @@ class CallsRepository
             LEFT JOIN (select callid, count(1) as num
                     from  queue_log where  event='AGENTDUMP' 
                     group by callid ) as agentdump on (agentdump.callid=input_call.callid)
+            LEFT JOIN (
+                    select callid, count(1) count  
+                    from  queue_log where event='RINGNOANSWER' 
+                    group by callid ) as notawnser on (notawnser.callid=input_call.callid)
             where 
                 date_format(input_call.time,'%Y-%m-%d')=? 
                 and input_call.event='DID'

@@ -87,6 +87,21 @@ export default function CallsList(props) {
         }
     }
 
+    const checkNotAnsweredCount=(count)=>{
+        return count>5 ? 'NotAnswerBadge-many' : 'NotAnswerBadge-few'
+    }
+
+    const notAnswerTemplate=(data)=>{
+        if(data.notanswer_num)
+            return (
+                <>
+                    <span className={`NotAnswerBadge ${checkNotAnsweredCount(data.notanswer_num)}`}>{data.notanswer_num}</span>
+                </>
+            )
+        else
+            return (<></>)
+    }
+
     const calltimeTemplate=(data)=>{
         return (
             <>
@@ -130,6 +145,7 @@ export default function CallsList(props) {
                 <Column field={'pos'} header={'Позиция'} sortable />
                 <Column field={'input_phone'} header={'Входной номер'} />
                 <Column field={'agent'} header={'Оператор'} filter filterElement={agentFilter} />
+                <Column field={'notanswer_num'} body={notAnswerTemplate} style={{width:'64px'}} />
                 <Column field={'wait'} header={'Ожидание'} body={waitTemplate} sortable />
                 <Column field={'calltime'} header={'Разговор'} body={calltimeTemplate} sortable />
                 <Column field={'d_type'} header={'Результат звонка'}
