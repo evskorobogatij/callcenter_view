@@ -50,6 +50,11 @@ export default function CallsList(props) {
             dt.filter(selectedAgent,'agent','equals')
     },[selectedAgent])
 
+    React.useEffect(()=>{
+        if(dt)
+            dt.filter(selectedStatus,'d_type','equals')
+    },[selectedStatus])
+
     const rowClicked = (e) => {
         console.log(e)
     }
@@ -57,7 +62,7 @@ export default function CallsList(props) {
     // const statusFilter = <Dropdown value={this.state.selectedStatus} options={this.statuses} onChange={(e) => this.setState({ selectedStatus: e.value })} itemTemplate={this.statusItemTemplate} placeholder="Select a Status" className="p-column-filter" showClear />;
 
 
-    const resultFilter = <Dropdown value={selectedStatus} options={statuses} onChange={e => setSelectedStatus(e.value)} className="p-column-filter" />
+    const resultFilter = <Dropdown value={selectedStatus} options={statuses} onChange={e => setSelectedStatus(e.value)} className="p-column-filter" showClear />
     const agentFilter =  <Dropdown value={selectedAgent} options={agents} onChange={e => setSelectedAgent(e.value)} placeholder={'по оператору'} showClear className={"p-column-filter"} autoWidth />
 
     const waitTemplate=(data)=>{
@@ -109,8 +114,8 @@ export default function CallsList(props) {
                 <Column field={'calltime'} header={'Разговор'} body={calltimeTemplate} sortable />
                 <Column field={'d_type'} header={'Результат звонка'}
                         sortable
-                        // filter
-                        // filterElement={resultFilter}
+                        filter
+                        filterElement={resultFilter}
                 />
             </DataTable>
 
