@@ -31,7 +31,7 @@ export default function CallsList(props) {
         (s_date===c_date) ?
             setTimer(setInterval(getCallsList,120000))
          :  clearInterval(timer)
-        
+
         getCallsList()
     },[props.date])
 
@@ -60,6 +60,14 @@ export default function CallsList(props) {
         )
     }
 
+    const timeTemplate=(data)=>{
+        return (
+            <>
+                <span>{data.time.slice(11)}</span>
+            </>
+        )
+    }
+
     return (
         <>
             <h1>Список звонков</h1>
@@ -71,7 +79,7 @@ export default function CallsList(props) {
                        className="p-datatable-striped"
                        removableSort
             >
-                <Column field={'time'} header={'Время'}  sortable />
+                <Column field={'time'} header={'Время'} body={timeTemplate}  sortable />
                 <Column field={'phone'} header={'Телефон'} />
                 <Column field={'queuename'} header={'Очередь'} />
                 <Column field={'pos'} header={'Позиция'} sortable />
