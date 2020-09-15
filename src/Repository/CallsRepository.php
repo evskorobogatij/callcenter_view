@@ -145,4 +145,14 @@ class CallsRepository
         return $data;
     }
 
+    function agents(){
+        $str = "select distinct agent from  queue_log where event='CONNECT';";
+        $tmp = $this->conn->fetchAll($str);
+        $data = [];
+        foreach ($tmp as $item){
+            $data[] = $item['agent'];
+        }
+        return $data;
+    }
+
 }

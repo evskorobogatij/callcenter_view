@@ -49,4 +49,14 @@ class ApiCoreController extends AbstractController
         return $this->json($data);
     }
 
+    /**
+     * @Route("/agents")
+     * @param CallsRepository $callsRepository
+     * @return JsonResponse
+     */
+    public function agents(CallsRepository $callsRepository):JsonResponse{
+        $data = $callsRepository->agents();
+        return $this->json($data);
+    }
+
 }
