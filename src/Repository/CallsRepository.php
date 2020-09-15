@@ -30,6 +30,16 @@ class CallsRepository
                     WHEN c_agent.data1 is not null then 'Оператор положил трубку'
                     WHEN c_caller.data1 is not null then 'Абонент положил трубку'
                     WHEN abandon.data1 is not null then 'Пропушеный вызов'
+                    WHEN c_agent.data1 is null 
+                        and c_caller.data1 is null
+                        and abandon.data1 is null 
+                        and t_connect.data1 is null 
+                        then 'Звонок'
+                    WHEN c_agent.data1 is null 
+                        and c_caller.data1 is null
+                        and abandon.data1 is null 
+                        and t_connect.data1 is not null 
+                        then 'Активный разговор'    
                 end as d_type,
                
                 t_connect.agent, 
