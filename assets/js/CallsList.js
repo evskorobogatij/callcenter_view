@@ -4,10 +4,14 @@ import { DataTable } from 'primereact/datatable'
 import {Column} from "primereact/column";
 import moment from "moment";
 import {Dropdown} from "primereact/dropdown";
+import {Button} from "primereact/button";
+import {OverlayPanel} from "primereact/overlaypanel";
+import {Checkbox} from "primereact/checkbox";
 
 import {format_minutes} from './lib/common'
 
 import './CallsList.scss';
+
 
 export default function CallsList(props) {
 
@@ -25,8 +29,13 @@ export default function CallsList(props) {
     ]
 
     const [dt,setDt] = React.useState(null)
-
-    fetch("/api/agents").then(response=>response.json()).then(result=>setAgents(result));
+    const [cols,setCols] = React.useState({
+        isQueuename:true,
+        isPos:true,
+        isInputPhone:true
+    })
+    const [op,setOp] = React.useState(null)
+    // fetch("/api/agents").then(response=>response.json()).then(result=>setAgents(result));
 
     const getCallsList = () => {
         let s_date = moment(props.date).format("YYYY-MM-DD");
@@ -44,7 +53,7 @@ export default function CallsList(props) {
 
         getCallsList()
 
-        // fetch("/api/agents").then(response=>response.json()).then(result=>setAgents(result));
+        fetch("/api/agents").then(response=>response.json()).then(result=>setAgents(result));
     },[props.date])
 
     React.useEffect(()=>{
@@ -119,9 +128,46 @@ export default function CallsList(props) {
         )
     }
 
+    const header = <div style={{textAlign:'right'}}>
+                        <Button type="button" icon="pi pi-cog" label="Опции" onClick={(e)=>op.toggle(e)} ></Button>
+                   </div>;
+
+    const handleColumnConfig=(e)=>{
+        const {name,checked} = e.target
+        const param = {...cols}
+        switch (name){
+            case 'isQueuename' :
+                param.isQueuename = checked
+                break
+            case 'isPos' :
+                param.isPos = checked
+                break
+            case 'isInputPhone' :
+                param.isInputPhone = checked
+                break
+        }
+        setCols(param)
+    }
+
     return (
         <>
             <h1>Список звонков</h1>
+
+            <OverlayPanel ref={(el)=>setOp(el)} showCloseIcon dismissable >
+                <div className="p-field-checkbox">
+                    <Checkbox inputId="isQueuename" name="isQueuename"  checked={cols.isQueuename} onChange={handleColumnConfig} />
+                    <label htmlFor="isQueuename">Очередь</label>
+                </div>
+                <div className="p-field-checkbox">
+                    <Checkbox inputId="isPos" name="isPos" checked={cols.isPos} onChange={handleColumnConfig} />
+                    <label htmlFor="isPos">Начальная позиция в очереди</label>
+                </div>
+                <div className="p-field-checkbox">
+                    <Checkbox inputId="isInputPhone" name="isInputPhone" checked={cols.isInputPhone} onChange={handleColumnConfig} />
+                    <label htmlFor="isInputPhone">Внутрений номер</label>
+                </div>
+            </OverlayPanel>
+
             <DataTable value={callList}
                        ref={(el)=>setDt(el)}
                        selectionMode="single"
@@ -139,17 +185,20 @@ export default function CallsList(props) {
                        rowsPerPageOptions={[10,25,50]}
                        sortMode="multiple"
                        loading={callList.length===0}
+                       header={header}
             >
                 <Column fiel={'agentdump_num'} body={agentDumpTemplate} style={{width:'48px'}}  />
                 <Column field={'time'} header={'Время'} body={timeTemplate}  sortable />
                 <Column field={'phone'} header={'Телефон'} filter filterPlaceholder="по номеру" />
-                <Column field={'queuename'} header={'Очередь'}  />
-                <Column field={'pos'} header={'Позиция'} sortable />
-                <Column field={'input_phone'} header={'Входной номер'} />
+                {
+                   cols.isQueuename && (<Column field={'queuename'} header={'Очередь'} style={{width:'120px'}}  />)
+                }
+                { cols.isPos && (<Column field={'pos'} header={'Позиция'} sortable style={{width:'130px'}} />)}
+                { cols.isInputPhone && (<Column field={'input_phone'} header={'Входной номер'} />)}
                 <Column field={'agent'} header={'Оператор'} filter filterElement={agentFilter} />
-                <Column field={'notanswer_num'} body={notAnswerTemplate} style={{width:'64px'}} />
-                <Column field={'wait'} header={'Ожидание'} body={waitTemplate} sortable />
-                <Column field={'calltime'} header={'Разговор'} body={calltimeTemplate} sortable />
+                <Column field={'notanswer_num'} body={notAnswerTemplate} style={{width:'64px'}}  />
+                <Column field={'wait'} header={'Ожидание'} body={waitTemplate} sortable style={{width:'144px'}} />
+                <Column field={'calltime'} header={'Разговор'} body={calltimeTemplate} sortable style={{width:'144px'}}  />
                 <Column field={'d_type'} header={'Результат звонка'}
                         sortable
                         filter
