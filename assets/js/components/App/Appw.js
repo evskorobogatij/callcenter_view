@@ -9,8 +9,10 @@ import {
     withRouter
 } from "react-router-dom"
 
-import Dashboard from '../../Dashboard'
-import CallsList from '../../CallsList'
+import Dashboard from '../../pages/Dashboard/Dashboard'
+import CallsList from '../../pages/CallsList/CallsList'
+
+import './Appw.scss'
 
 function App() {
 
@@ -24,17 +26,18 @@ function App() {
         <div>
             <AppToolbar date={date} setDate={selectDate} />
             {/*<h1>Тест</h1>*/}
-            <RouteSwitch>
             <div className="layout-main">
-                <Route path='/dashboard' >
-                    <Dashboard date={date} />
-                </Route>
-                <Route path='/call_list' component={CallsList} />
-                <Redirect from={"/"} to={"/dashboard"} />
+                <RouteSwitch>
+                    <Route path='/dashboard' >
+                        <Dashboard date={date} />
+                    </Route>
+                    <Route path='/calls_list' >
+                        <CallsList date={date} />
+                    </Route>
+                    <Redirect from={"/"} to={"/dashboard"} />
+                </RouteSwitch>
             </div>
-            </RouteSwitch>
         </div>
-
 
     )
 }

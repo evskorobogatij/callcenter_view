@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {BrowserRouter as Router  } from "react-router-dom"
+import {HashRouter as Router  } from "react-router-dom"
 
 import App from "./components/App/Appw"
 import '../css/index.scss';
-import 'primereact/resources/themes/nova/theme.css';
+import 'primereact/resources/themes/saga-blue/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 import 'primeflex/primeflex.css';

@@ -4,14 +4,14 @@ import ReactDOM from 'react-dom';
 import moment from 'moment';
 
 // import {} from "./components/Card/Card"
-import {Card as TelCard} from "./components/Card/Card";
-import {TelBox} from "./components/TelBox/TelBox";
+import {Card as TelCard} from "../../components/Card/Card";
+import {TelBox} from "../../components/TelBox/TelBox";
 
 import {Card} from 'primereact/card'
 import { DataTable } from 'primereact/datatable'
 import {Column} from "primereact/column";
 
-import {format_minutes} from './lib/common'
+import {format_minutes} from '../../lib/common'
 
 import './Dashboard.scss';
 

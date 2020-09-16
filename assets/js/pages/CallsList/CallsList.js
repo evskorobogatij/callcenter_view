@@ -8,7 +8,7 @@ import {Button} from "primereact/button";
 import {OverlayPanel} from "primereact/overlaypanel";
 import {Checkbox} from "primereact/checkbox";
 
-import {format_minutes} from './lib/common'
+import {format_minutes} from '../../lib/common'
 
 import './CallsList.scss';
 

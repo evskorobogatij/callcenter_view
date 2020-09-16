@@ -3,12 +3,14 @@ import {Toolbar} from 'primereact/toolbar'
 import {Button} from "primereact/button";
 
 import {Calendar} from "primereact/calendar";
+import {Menu} from "primereact/menu";
 
 import "./AppToolbar.scss"
 
 function AppToolbar(props) {
 
     // const [date, setDate] = React.useState(props.date)
+    const [navMenu, setNavMenu] = React.useState(null)
 
     const curDate = new Date();
     const d = curDate.toISOString().slice(0,10);
@@ -29,9 +31,28 @@ function AppToolbar(props) {
         props.setDate(e.value)
     }
 
+    const menu_items = [
+        {
+            label:'Панель',
+            icon: 'pi pi-home',
+            command:(e)=>{
+                window.location.hash = "/"
+            }
+        },
+        {
+            label:'Список звонков',
+            icon:'pi pi-table',
+            command:(e)=>{
+                window.location.hash = "/calls_list"
+            }
+        }
+    ]
+
+
     const leftContents = (
         <>
-            <Button icon="pi pi-bars" id="toggleMenu" />
+            <Button icon="pi pi-bars" id="toggleMenu" onClick={(event)=>navMenu.toggle(event)} />
+            <Menu popup id={"popup_menu"} model={menu_items} ref={(el)=>setNavMenu(el)} />
             {/*<Button label="New" icon="pi pi-plus" className="p-mr-2" />*/}
             {/*<Button label="Upload" icon="pi pi-upload" className="p-button-success" />*/}
             <span className={'AppToolbar-title'}>Мониторинг звонков</span>
@@ -44,7 +65,7 @@ function AppToolbar(props) {
         </>
     );
     return(
-        <Toolbar left={leftContents} right={rightContents} />
+        <Toolbar className={"AppToolbar"} left={leftContents} right={rightContents} />
     )
 }
 

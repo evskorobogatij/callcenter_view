@@ -2,3 +2,11 @@
   margin-left: 16px;
   font-size: 18px;
 }
+
+.AppToolbar {
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  right: 0;
+  top: 0;
+}
