@@ -14,6 +14,7 @@ import {Column} from "primereact/column";
 import {format_minutes} from '../../lib/common'
 
 import './Dashboard.scss';
+import CardCalsDistribution from "../../cards/CardCallsDistribution";
 
 
 export default function Dashboard(props) {
@@ -27,8 +28,8 @@ export default function Dashboard(props) {
         mid_wait_time: 0,
         mid_call_time: 0,
         max_wait_time: 0
-
     });
+
 
     const [notAnswerAgents,setNotAnsweredAgents] = React.useState([])
 
@@ -107,6 +108,9 @@ export default function Dashboard(props) {
                     </div>
                 </div>
 
+                <div className="p-col-12 p-lg-6">
+                    <CardCalsDistribution date={props.date}/>
+                </div>
 
             </div>
 

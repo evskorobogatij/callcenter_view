@@ -160,4 +160,13 @@ class CallsRepository
         return $data;
     }
 
+    function day_distribution($date){
+        $str="select convert(date_format(time,'%H'),int) as hour  , count(1) count
+        from  queue_log where date_format(time,'%Y-%m-%d')=? and event='DID'
+        group by hour
+        order by hour;";
+        $d = $this->conn->fetchAll($str,[$date]);
+        return $d;
+    }
+
 }

@@ -59,4 +59,15 @@ class ApiCoreController extends AbstractController
         return $this->json($data);
     }
 
+    /**
+     * @Route("/day_distribution/{date}")
+     * @param $date
+     * @param CallsRepository $callsRepository
+     * @return JsonResponse
+     */
+    public function day_distribution($date,CallsRepository $callsRepository):JsonResponse{
+        $data = $callsRepository->day_distribution($date);
+        return $this->json($data);
+    }
+
 }
