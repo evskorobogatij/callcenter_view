@@ -30,9 +30,9 @@ export default function CallsList(props) {
 
     const [dt,setDt] = React.useState(null)
     const [cols,setCols] = React.useState({
-        isQueuename:true,
-        isPos:true,
-        isInputPhone:true
+        isQueuename:localStorage.getItem('isQueuename') !== 'false',
+        isPos:localStorage.getItem('isPos') !== 'false',
+        isInputPhone:localStorage.getItem('isInputPhone') !== 'false'
     })
     const [op,setOp] = React.useState(null)
     // fetch("/api/agents").then(response=>response.json()).then(result=>setAgents(result));
@@ -147,6 +147,7 @@ export default function CallsList(props) {
                 break
         }
         setCols(param)
+        localStorage.setItem(name,checked)
     }
 
     return (
