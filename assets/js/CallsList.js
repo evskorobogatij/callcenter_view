@@ -128,7 +128,12 @@ export default function CallsList(props) {
         )
     }
 
+    const exportData=()=>{
+        dt.exportCSV()
+    }
+
     const header = <div style={{textAlign:'right'}}>
+                        <Button type={"button"} icon={"pi pi-save"} label={"Экспорт"} onClick={exportData} />
                         <Button type="button" icon="pi pi-cog" label="Опции" onClick={(e)=>op.toggle(e)} ></Button>
                    </div>;
 
