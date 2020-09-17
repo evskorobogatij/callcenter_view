@@ -11,6 +11,15 @@ import {Checkbox} from "primereact/checkbox";
 import {format_minutes} from '../../lib/common'
 
 import './CallsList.scss';
+import {phoneTemplate,
+    posTemplate,
+    queuenameTemplate,
+    timeTemplate,
+    agentTemplate,
+    callResultTemplate,
+    calltimeTemplate,
+    inputPhoneTemplate,
+    waitTemplate} from "./CellTemplates";
 
 
 export default function CallsList(props) {
@@ -77,92 +86,6 @@ export default function CallsList(props) {
     const resultFilter = <Dropdown value={selectedStatus} options={statuses} onChange={e => setSelectedStatus(e.value)} className="p-column-filter" showClear />
     const agentFilter =  <Dropdown value={selectedAgent} options={agents} onChange={e => setSelectedAgent(e.value)} placeholder={'по оператору'} showClear className={"p-column-filter"} autoWidth />
 
-    const checkNotAnsweredCount=(count)=>{
-        return count>5 ? 'NotAnswerBadge-many' : 'NotAnswerBadge-few'
-    }
-
-    const timeTemplate=(data)=>{
-        return (
-            <>
-                <span className="p-column-title">Время</span>
-                <span className={`AgentBadgeDump ${ data.agentdump_num>0 && ('AgentBadgeDump-p')  }`}>{data.agentdump_num}</span>
-                {data.time.slice(11)}
-            </>
-        )
-    }
-
-    const phoneTemplate=(data)=>{
-        return (
-            <>
-                <span className={'p-column-title'}>Телефон</span>
-                <span>{data.phone}</span>
-            </>
-        )
-    }
-
-    const queuenameTemplate=(data)=>{
-        return (
-            <>
-                <span className={'p-column-title'}>Очередь</span>
-                <span>{data.queuename}</span>
-            </>
-        )
-    }
-
-    const posTemplate=(data)=>{
-        return (
-            <>
-                <span className={'p-column-title'}>Начальная позиция</span>
-                {data.pos}
-            </>
-        )
-    }
-
-    const inputPhoneTemplate=(data)=>{
-        return (
-            <>
-                <span className={'p-column-title'}>Входной номер</span>
-                {data.input_phone}
-            </>
-        )
-    }
-
-    const agentTemplate=(data)=>{
-        return (
-            <>
-                <span className={'p-column-title'}>Оператор</span>
-                {data.agent}
-            </>
-        )
-    }
-
-    const waitTemplate=(data)=>{
-        return (
-            <>
-                <span className={'p-column-title'}>Время ожидания</span>
-                { data.notanswer_num && (<span className={`NotAnswerBadge ${checkNotAnsweredCount(data.notanswer_num)}`}>{data.notanswer_num}</span>) }
-                <span>{format_minutes(data.wait)} </span>
-            </>
-        )
-    }
-
-    const calltimeTemplate=(data)=>{
-        return (
-            <>
-                <span className={'p-column-title'}>Время разговора</span>
-                <span>{format_minutes(data.calltime)}</span>
-            </>
-        )
-    }
-
-    const callResultTemplate=(data)=>{
-        return (
-            <>
-                <span className={'p-column-title'}>Статус звонка</span>
-                {data.d_type}
-            </>
-        )
-    }
 
     const exportData=()=>{
         dt.exportCSV()
