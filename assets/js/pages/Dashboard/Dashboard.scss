@@ -2,7 +2,10 @@
 .sub-box {
   flex-wrap: wrap;
   display: flex;
-  height: 240px;
+  @media screen and (min-width: 576px) {
+    height: 240px;
+  }
+
 }
 
 .p-column-filter {

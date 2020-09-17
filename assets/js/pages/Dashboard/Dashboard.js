@@ -65,16 +65,16 @@ export default function Dashboard(props) {
             <h1>Панель управления</h1>
             {/*<p>данные на {props.date.toISOString().slice(0,10)} </p>*/}
             <div className="p-grid p-fluid">
-                <div className="p-col-12 p-md-6 p-lg-3">
+                <div className="p-col-12 p-sm-6 p-md-6 p-lg-3">
                     <TelCard title={"Звонки"} detail={"Количество поступивших звонков"} call_type={'incomming'} count={callsStatus.calls} />
                 </div>
-                <div className="p-col-12 p-md-6 p-lg-3">
+                <div className="p-col-12 p-sm-6 p-md-6 p-lg-3">
                     <TelCard title={"Обработано"} detail={"Обработаные звонки"} call_type={'answered'} count={callsStatus.answered_calls}/>
                 </div>
-                <div className="p-col-12 p-md-6 p-lg-3">
+                <div className="p-col-12 p-sm-6 p-md-6 p-lg-3">
                     <TelCard title={"Пропущено"} detail={"Пропущеные звонки"} call_type={'notanswered'} count={callsStatus.abandon}/>
                 </div>
-                <div className="p-col-12 p-md-6 p-lg-3">
+                <div className="p-col-12 p-sm-6 p-md-6 p-lg-3">
                     <TelCard title={"Отклонено"} detail={"Оператор отклонил звонок"} call_type={'abandon'} count={callsStatus.rejected_calls}/>
                 </div>
 
@@ -82,7 +82,6 @@ export default function Dashboard(props) {
                     <Card title={"Неотвечающие операторы"} >
                         <DataTable
                             value={notAnswerAgents}
-                            // header={"Список неотвечающих опереторов"}
                             removableSort
                         >
                             <Column field={'agent'} header={'Оператор'} />
@@ -92,18 +91,18 @@ export default function Dashboard(props) {
                 </div>
 
                 <div className="p-col p-fluid sub-box" >
-                    <div className="p-col-12 p-md-6 p-lg-6">
+                    <div className="p-col-12 p-sm-6 p-md-6 p-lg-6">
                         <TelBox title={"Не отвечено звонков"} value={callsStatus.not_aswered} />
                     </div>
-                    <div className="p-col-12 p-md-6 p-lg-6">
+                    <div className="p-col-12 p-sm-6 p-md-6 p-lg-6">
                         <TelBox title={"Среднее время ожидания"} value={format_minutes(callsStatus.mid_wait_time)} />
                     </div>
 
-                    <div className="p-col-12 p-md-6 p-lg-6">
+                    <div className="p-col-12 p-sm-6 p-md-6 p-lg-6">
                         <TelBox title={"Среднее время разговора"} value={format_minutes(callsStatus.mid_call_time)} />
                     </div>
 
-                    <div className="p-col-12 p-md-6 p-lg-6">
+                    <div className="p-col-12 p-sm-6 p-md-6 p-lg-6">
                         <TelBox title={"Максимальное время ожидания"}  value={format_minutes(callsStatus.max_wait_time)} />
                     </div>
                 </div>
