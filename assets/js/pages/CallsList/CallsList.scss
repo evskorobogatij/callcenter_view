@@ -42,7 +42,13 @@
 .CallList-header {
   justify-content: space-between;
   align-items: center;
-  display: flex;
+  @media only screen and (min-width: 600px) {
+    display: flex;
+  }
+}
+
+.CallList-header-buttons {
+  text-align: right;
 }
 
 .CallsList-resp {

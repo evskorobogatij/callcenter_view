@@ -170,7 +170,7 @@ export default function CallsList(props) {
 
     const header = <div className={"CallList-header"}>
                     <h1>Список звонков</h1>
-                    <div style={{textAlign:'right'}}>
+                    <div className={"CallLits-header-buttons"}>
                         <Button type={"button"} icon={"pi pi-save"} label={"Экспорт"} onClick={exportData} />
                         <Button type="button" icon="pi pi-cog" label="Опции" onClick={(e)=>op.toggle(e)} />
                    </div>
