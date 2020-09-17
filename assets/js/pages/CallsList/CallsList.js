@@ -77,53 +77,89 @@ export default function CallsList(props) {
     const resultFilter = <Dropdown value={selectedStatus} options={statuses} onChange={e => setSelectedStatus(e.value)} className="p-column-filter" showClear />
     const agentFilter =  <Dropdown value={selectedAgent} options={agents} onChange={e => setSelectedAgent(e.value)} placeholder={'по оператору'} showClear className={"p-column-filter"} autoWidth />
 
-    const waitTemplate=(data)=>{
-        return (
-            <>
-                <span>{format_minutes(data.wait)} </span>
-            </>
-        )
-    }
-
-    const agentDumpTemplate =(data)=>{
-        if (data.agentdump_num)
-            return (
-                <>
-                            <span className={'AgentBadgeDump'}>{data.agentdump_num}</span>
-                </>
-            )
-        else {
-            return (<></>)
-        }
-    }
-
     const checkNotAnsweredCount=(count)=>{
         return count>5 ? 'NotAnswerBadge-many' : 'NotAnswerBadge-few'
-    }
-
-    const notAnswerTemplate=(data)=>{
-        if(data.notanswer_num)
-            return (
-                <>
-                    <span className={`NotAnswerBadge ${checkNotAnsweredCount(data.notanswer_num)}`}>{data.notanswer_num}</span>
-                </>
-            )
-        else
-            return (<></>)
-    }
-
-    const calltimeTemplate=(data)=>{
-        return (
-            <>
-                <span>{format_minutes(data.calltime)}</span>
-            </>
-        )
     }
 
     const timeTemplate=(data)=>{
         return (
             <>
-                <span>{data.time.slice(11)}</span>
+                <span className="p-column-title">Время</span>
+                <span className={`AgentBadgeDump ${ data.agentdump_num>0 && ('AgentBadgeDump-p')  }`}>{data.agentdump_num}</span>
+                {data.time.slice(11)}
+            </>
+        )
+    }
+
+    const phoneTemplate=(data)=>{
+        return (
+            <>
+                <span className={'p-column-title'}>Телефон</span>
+                <span>{data.phone}</span>
+            </>
+        )
+    }
+
+    const queuenameTemplate=(data)=>{
+        return (
+            <>
+                <span className={'p-column-title'}>Очередь</span>
+                <span>{data.queuename}</span>
+            </>
+        )
+    }
+
+    const posTemplate=(data)=>{
+        return (
+            <>
+                <span className={'p-column-title'}>Начальная позиция</span>
+                {data.pos}
+            </>
+        )
+    }
+
+    const inputPhoneTemplate=(data)=>{
+        return (
+            <>
+                <span className={'p-column-title'}>Входной номер</span>
+                {data.input_phone}
+            </>
+        )
+    }
+
+    const agentTemplate=(data)=>{
+        return (
+            <>
+                <span className={'p-column-title'}>Оператор</span>
+                {data.agent}
+            </>
+        )
+    }
+
+    const waitTemplate=(data)=>{
+        return (
+            <>
+                <span className={'p-column-title'}>Время ожидания</span>
+                { data.notanswer_num && (<span className={`NotAnswerBadge ${checkNotAnsweredCount(data.notanswer_num)}`}>{data.notanswer_num}</span>) }
+                <span>{format_minutes(data.wait)} </span>
+            </>
+        )
+    }
+
+    const calltimeTemplate=(data)=>{
+        return (
+            <>
+                <span className={'p-column-title'}>Время разговора</span>
+                <span>{format_minutes(data.calltime)}</span>
+            </>
+        )
+    }
+
+    const callResultTemplate=(data)=>{
+        return (
+            <>
+                <span className={'p-column-title'}>Статус звонка</span>
+                {data.d_type}
             </>
         )
     }
@@ -132,10 +168,13 @@ export default function CallsList(props) {
         dt.exportCSV()
     }
 
-    const header = <div style={{textAlign:'right'}}>
+    const header = <div className={"CallList-header"}>
+                    <h1>Список звонков</h1>
+                    <div style={{textAlign:'right'}}>
                         <Button type={"button"} icon={"pi pi-save"} label={"Экспорт"} onClick={exportData} />
-                        <Button type="button" icon="pi pi-cog" label="Опции" onClick={(e)=>op.toggle(e)} ></Button>
-                   </div>;
+                        <Button type="button" icon="pi pi-cog" label="Опции" onClick={(e)=>op.toggle(e)} />
+                   </div>
+                  </div>;
 
     const handleColumnConfig=(e)=>{
         const {name,checked} = e.target
@@ -156,8 +195,7 @@ export default function CallsList(props) {
     }
 
     return (
-        <>
-            <h1>Список звонков</h1>
+        <div className={"CallsList-resp"}>
 
             <OverlayPanel ref={(el)=>setOp(el)} showCloseIcon dismissable >
                 <div className="p-field-checkbox">
@@ -180,9 +218,9 @@ export default function CallsList(props) {
                        onRowClick={e => rowClicked(e)}
                        dataKey={'callid'}
                        // scrollable scrollHeight="80vh"
-                       className="p-datatable-striped"
+                       className="CallsList-table"
                        paginator rows={10}
-                       // removableSort
+                       removableSort
                        // resizableColumns
                        // columnResizeMode="fit"
                        paginatorRight
@@ -193,25 +231,24 @@ export default function CallsList(props) {
                        loading={callList.length===0}
                        header={header}
             >
-                <Column fiel={'agentdump_num'} body={agentDumpTemplate} style={{width:'48px'}}  />
                 <Column field={'time'} header={'Время'} body={timeTemplate}  sortable />
-                <Column field={'phone'} header={'Телефон'} filter filterPlaceholder="по номеру" />
+                <Column field={'phone'} header={'Телефон'} body={phoneTemplate} filter filterPlaceholder="по номеру" />
                 {
-                   cols.isQueuename && (<Column field={'queuename'} header={'Очередь'} style={{width:'120px'}}  />)
+                   cols.isQueuename && (<Column field={'queuename'} header={'Очередь'} body={queuenameTemplate} /*style={{width:'120px'}} */ />)
                 }
-                { cols.isPos && (<Column field={'pos'} header={'Позиция'} sortable style={{width:'130px'}} />)}
-                { cols.isInputPhone && (<Column field={'input_phone'} header={'Входной номер'} />)}
-                <Column field={'agent'} header={'Оператор'} filter filterElement={agentFilter} />
-                <Column field={'notanswer_num'} body={notAnswerTemplate} style={{width:'64px'}}  />
-                <Column field={'wait'} header={'Ожидание'} body={waitTemplate} sortable style={{width:'144px'}} />
-                <Column field={'calltime'} header={'Разговор'} body={calltimeTemplate} sortable style={{width:'144px'}}  />
-                <Column field={'d_type'} header={'Результат звонка'}
+                { cols.isPos && (<Column field={'pos'} header={'Позиция'} body={posTemplate} sortable /*style={{width:'130px'}} */ />)}
+                { cols.isInputPhone && (<Column field={'input_phone'} body={inputPhoneTemplate} header={'Входной номер'} />)}
+                <Column field={'agent'} header={'Оператор'} body={agentTemplate} filter filterElement={agentFilter} />
+                {/*<Column field={'notanswer_num'} header={'P'} body={notAnswerTemplate}   />*/}
+                <Column field={'wait'} header={'Ожидание'} body={waitTemplate} sortable /*style={{width:'144px'}}*/ />
+                <Column field={'calltime'} header={'Разговор'} body={calltimeTemplate} sortable /*style={{width:'144px'}}*/  />
+                <Column field={'d_type'} header={'Статус звонка'} body={callResultTemplate}
                         sortable
                         filter
                         filterElement={resultFilter}
                 />
             </DataTable>
 
-        </>
+        </div>
     )
 }

@@ -1,7 +1,7 @@
 
 .AgentBadgeDump {
   color: white;
-  background-color: red;
+
   margin: 2px;
   width: 24px;
   height: 24px;
@@ -12,11 +12,17 @@
   float: left;
 }
 
+.AgentBadgeDump-p {
+  background-color: red;
+}
+
 .NotAnswerBadge {
   color: white;
 
   margin: 2px;
-  width: 100%;
+  //width: 100%;
+  padding-left: 8px;
+  padding-right: 8px;
   height: 24px;
   display: block;
   border-radius: 4px;
@@ -31,4 +37,49 @@
 
 .NotAnswerBadge-many {
   background-color: #ef6262
+}
+
+.CallList-header {
+  justify-content: space-between;
+  align-items: center;
+  display: flex;
+}
+
+.CallsList-resp {
+  .CallsList-table .p-datatable-tbody > tr > td .p-column-title {
+    display: none;
+  }
+
+  @media only screen and (max-width: 800px) {
+    .p-datatable {
+      &.CallsList-table {
+        .p-datatable-thead > tr > th,
+        .p-datatable-tfoot > tr > td {
+          display: none !important;
+        }
+
+        .p-datatable-tbody > tr > td {
+          text-align: left;
+          display: block;
+          width: 100%;
+          float: left;
+          clear: left;
+          border: 0 none;
+
+          .p-column-title {
+            padding: .4rem;
+            min-width: 30%;
+            display: inline-block;
+            margin: -.4em 1em -.4em -.4rem;
+            font-weight: bold;
+            float: left;
+          }
+
+          &:last-child {
+            border-bottom: 1px solid var(--surface-d);
+          }
+        }
+      }
+    }
+  }
 }
