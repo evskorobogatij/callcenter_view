@@ -76,7 +76,7 @@ export const calltimeTemplate=(data)=>{
     return (
         <>
             <span className={'p-column-title'}>Время разговора</span>
-            <span>{format_minutes(data.calltime)}</span>
+            <span className={data.calltime<=15 && ("SpeedTalk")} >{format_minutes(data.calltime)}</span>
         </>
     )
 }
