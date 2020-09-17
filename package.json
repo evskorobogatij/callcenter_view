@@ -19,6 +19,7 @@
     "classname": "0.0.0",
     "classnames": "^2.2.6",
     "core-js": "^3.6.5",
+    "material-icons-react": "^1.0.4",
     "moment": "^2.28.0",
     "primeflex": "^2.0.0",
     "primeicons": "^4.0.0",

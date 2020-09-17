@@ -1,6 +1,8 @@
 import {format_minutes} from "../../lib/common";
 import React from "react";
 
+import MaterialIcon, {colorPalette} from 'material-icons-react';
+
 const checkNotAnsweredCount=(count)=>{
     return count>5 ? 'NotAnswerBadge-many' : 'NotAnswerBadge-few'
 }
@@ -79,10 +81,41 @@ export const calltimeTemplate=(data)=>{
     )
 }
 
+const getImageForCall=(code)=>{
+    let icon='';
+    switch (Number(code)) {
+        case 0:
+            icon="call_made"
+            break
+        case 1:
+            icon="call"
+            break
+        case 2:
+            icon="call_missed"
+            break
+        case 3:
+            icon="call_end"
+            break
+        case 4:
+            icon="call_end"
+            break
+    }
+    return icon
+}
+
 export const callResultTemplate=(data)=>{
     return (
         <>
             <span className={'p-column-title'}>Статус звонка</span>
+            {/*<CallRoundedIcon/>*/}
+            {/*{data.res_code}*/}
+            {/*<MaterialIcon icon={`${data.res_code}`} color={colorPalette.amber.A700} />*/}
+
+            { data.res_code==="call_end_op" && (<MaterialIcon icon='call_end' color={colorPalette.amber.A700} />) }
+            { data.res_code==="call_end_a" && (<MaterialIcon icon='call_end' color={colorPalette.green.A400} />) }
+            { data.res_code==="call_missed" && (<MaterialIcon icon='call_missed' color={colorPalette.red.A400} />) }
+            { data.res_code==="call" && (<MaterialIcon icon='call' color={colorPalette.green.A700} />) }
+            { data.res_code==="call_made" && (<MaterialIcon icon='call_made' color={colorPalette.blue.A400} />) }
             {data.d_type}
         </>
     )

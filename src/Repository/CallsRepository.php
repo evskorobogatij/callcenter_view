@@ -42,6 +42,22 @@ class CallsRepository
                         and t_connect.data1 is not null 
                         then 'Активный разговор'    
                 end as d_type,
+                    
+               CASE
+                    WHEN c_agent.data1 is not null then 'call_end_op'
+                    WHEN c_caller.data1 is not null then 'call_end_a'
+                    WHEN abandon.data1 is not null then 'call_missed'
+                    WHEN c_agent.data1 is null 
+                        and c_caller.data1 is null
+                        and abandon.data1 is null 
+                        and t_connect.data1 is null 
+                        then 'call_made'
+                    WHEN c_agent.data1 is null 
+                        and c_caller.data1 is null
+                        and abandon.data1 is null 
+                        and t_connect.data1 is not null 
+                        then 'call'    
+                end as res_code,
                
                 t_connect.agent, 
                 -- COALESCE(c_agent.agent,c_caller.agent) as c_agent,
