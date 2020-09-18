@@ -15,9 +15,14 @@ function CallDetail(props) {
         }
     },[props.call])
 
+    const hide=()=>{
+        props.setShowed(false)
+        setCallData([])
+    }
+
     return (
         <>
-            <Dialog header={`Подробная информация о звонке`} visible={props.showed} style={{ width: '60vw' }} maximizable onHide={() => props.setShowed(false)}>
+            <Dialog header={`Подробная информация о звонке`} visible={props.showed} style={{ width: '60vw' }} maximizable onHide={() => hide()}>
                 {props.showed &&
                     (
                         <div>
