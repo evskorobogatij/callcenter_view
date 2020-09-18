@@ -7,7 +7,7 @@ import {Dropdown} from "primereact/dropdown";
 import {Button} from "primereact/button";
 import {OverlayPanel} from "primereact/overlaypanel";
 import {Checkbox} from "primereact/checkbox";
-
+import {CallDetail} from "./../../components/CallDetail/CallDetail"
 import {format_minutes} from '../../lib/common'
 
 import './CallsList.scss';
@@ -46,6 +46,9 @@ export default function CallsList(props) {
     const [op,setOp] = React.useState(null)
     // fetch("/api/agents").then(response=>response.json()).then(result=>setAgents(result));
 
+    const [callDetail,setCalDetail] = React.useState(false)
+    const [selectedCall,setSelectedCall] = React.useState(null)
+
     const getCallsList = () => {
         let s_date = moment(props.date).format("YYYY-MM-DD");
         console.log(s_date)
@@ -78,9 +81,9 @@ export default function CallsList(props) {
 
     const rowClicked = (e) => {
         console.log(e)
+        setCalDetail(true)
+        setSelectedCall(e.data.callid)
     }
-
-    // const statusFilter = <Dropdown value={this.state.selectedStatus} options={this.statuses} onChange={(e) => this.setState({ selectedStatus: e.value })} itemTemplate={this.statusItemTemplate} placeholder="Select a Status" className="p-column-filter" showClear />;
 
 
     const resultFilter = <Dropdown value={selectedStatus} options={statuses} onChange={e => setSelectedStatus(e.value)} className="p-column-filter" showClear />
@@ -134,6 +137,8 @@ export default function CallsList(props) {
                     <label htmlFor="isInputPhone">Внутрений номер</label>
                 </div>
             </OverlayPanel>
+
+            <CallDetail showed={callDetail} setShowed={setCalDetail} call={selectedCall} />
 
             <DataTable value={callList}
                        ref={(el)=>setDt(el)}

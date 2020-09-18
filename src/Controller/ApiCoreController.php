@@ -70,4 +70,16 @@ class ApiCoreController extends AbstractController
         return $this->json($data);
     }
 
+    /**
+     * @Route("/call_detail/{call}", requirements={"call"="\d+\_\d+"})
+     * @param $call
+     * @param CallsRepository $callsRepository
+     * @return JsonResponse
+     */
+    public function call_detail($call,CallsRepository $callsRepository):JsonResponse{
+        $d_call = str_replace('_','.',$call);
+        $data = $callsRepository->call_detail($d_call);
+        return $this->json($data);
+    }
+
 }

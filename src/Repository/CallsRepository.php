@@ -185,4 +185,12 @@ class CallsRepository
         return $d;
     }
 
+    function call_detail($call){
+        $str= "select time, agent, event, data1, data2, data3 
+               from  queue_log 
+               where event!='DID' and callid=? ";
+        $data = $this->conn->fetchAll($str,[$call]);
+        return $data;
+    }
+
 }
