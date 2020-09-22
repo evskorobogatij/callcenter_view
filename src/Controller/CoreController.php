@@ -7,8 +7,11 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class CoreController extends AbstractController
 {
+
+    //     * @Route("/{reactRouting}", name="core", requirements={"reactRouting"="^(?!api).+"}, defaults={"reactRouting": null})
+    //
     /**
-     * @Route("/{reactRouting}", name="core", requirements={"reactRouting"="^(?!api).+"}, defaults={"reactRouting": null})
+     * @Route("/")
      */
     public function index()
     {
@@ -16,4 +19,13 @@ class CoreController extends AbstractController
             'controller_name' => 'CoreController',
         ]);
     }
+
+    /**
+     * @Route("/install")
+     * @return string
+     */
+    public function install(){
+        return $this->render('core/install.html.twig',[]);
+    }
+
 }

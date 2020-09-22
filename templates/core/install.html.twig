@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ encore_entry_link_tags('install') }}
+{% endblock %}
+
+{% block title %}Мониторинг коллцентра. Установка {% endblock %}
+
+{% block body %}
+
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root" class="AppInstall"></div>
+
+    {% block javascripts %}
+        {{ encore_entry_script_tags('install') }}
+    {% endblock %}
+    {#<style>#}
+    {#    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }#}
+    {#    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }#}
+    {#</style>#}
+
+    {#<div class="example-wrapper">#}
+    {#    <h1>Hello {{ controller_name }}! ✅</h1>#}
+
+    {#    This friendly message is coming from:#}
+    {#    <ul>#}
+    {#        <li>Your controller at <code><a href="{{ 'C:/app_b/callcenter_view_srv/src/Controller/CoreController.php'|file_link(0) }}">src/Controller/CoreController.php</a></code></li>#}
+    {#        <li>Your template at <code><a href="{{ 'C:/app_b/callcenter_view_srv/templates/core/index.html.twig'|file_link(0) }}">templates/core/index.html.twig</a></code></li>#}
+    {#    </ul>#}
+    {#</div>#}
+{% endblock %}
