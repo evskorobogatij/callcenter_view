@@ -3,6 +3,7 @@ import { InputText } from 'primereact/inputtext';
 import {Dropdown} from "primereact/dropdown";
 import {InputNumber} from "primereact/inputnumber";
 import {Button} from "primereact/button";
+import {Toast} from 'primereact/toast';
 
 import './../css/install.scss'
 import {Card} from "primereact/card";
@@ -28,6 +29,9 @@ function AppInstall(){
         db: true,
         username : true
     })
+
+    const [toast,setToast] = React.useState(null)
+    const [checking,setChecking] = React.useState(false)
 
     const dbTypeChange = (e) => {
         const {value} = e
@@ -56,6 +60,7 @@ function AppInstall(){
         tmp_check.username = config.username.length>0
         setCorrect(tmp_check)
         if (tmp_check.address && tmp_check.db && tmp_check.username){
+            setChecking(true)
             fetch("/config/set_config",{
                 method:'POST',
                 headers: {
@@ -64,31 +69,45 @@ function AppInstall(){
                 body: JSON.stringify(config)
             })
                 .then(response=>response.json())
-                .then(result=>console.log(result))
+                .then(result=>{
+
+                    console.log(result)
+                    setChecking(false)
+                    if (result.connected){
+                        document.location.replace("/")
+                    } else {
+                        toast.show({severity:'error', summary: 'Ошибка подключения', detail:result.error, life: 5000})
+                    }
+                })
         }
     }
 
     return (
         <div >
+
+            <Toast ref={(el)=>setToast(el)}/>
+
             <Card
                 title={'Установка мониторинга'}
                 footer={
                     <span>
-                        <Button label="Сохранить" icon="pi pi-check" onClick={checkParam} />
+                        <Button label="Сохранить" icon="pi pi-check" onClick={checkParam} disabled={checking} />
                     </span>
                 }
             >
                 <div className={"p-field p-grid"}>
                     <label htmlFor={"db_type"} className={"p-col-fixed"} style={{width:'120px'}}>Тип базы данных</label>
                     <div className={"p-col"}>
-                        <Dropdown options={dbTypes} value={config.db_type} onChange={dbTypeChange} />
+                        <Dropdown options={dbTypes} value={config.db_type} onChange={dbTypeChange} disabled={checking} />
                     </div>
                 </div>
                 <div className="p-field p-grid">
                     <label htmlFor="address" className="p-col-fixed" style={{width:'120px'}}>Имя сервера</label>
                     <div className="p-col">
                         <span className="p-input-icon-right">
-                            <InputText id="address" value={config.address} onChange={changes} type="text" className={`${ !correct.address && ('p-invalid') }`} />
+                            <InputText id="address" value={config.address} onChange={changes} type="text"
+                                       disabled={checking}
+                                       className={`${ !correct.address && ('p-invalid') }`} />
                         </span>
                         { !correct.address && (<small id="address-help" className="p-invalid p-d-block">Укажите имя сервера</small>) }
                     </div>
@@ -98,7 +117,7 @@ function AppInstall(){
                     <label htmlFor="db" className="p-col-fixed" style={{width:'120px'}}>База данных</label>
                     <div className="p-col">
                         <span className="p-input-icon-right">
-                            <InputText id="db" value={config.db} onChange={changes} className={`${ !correct.db && ('p-invalid')}`} type="text"/>
+                            <InputText id="db" value={config.db} onChange={changes} className={`${ !correct.db && ('p-invalid')}`} disabled={checking} type="text"/>
                         </span>
                         { !correct.db && (<small id="address-help" className="p-invalid p-d-block">Укажите имя базы данных</small>)}
                     </div>
@@ -107,7 +126,7 @@ function AppInstall(){
                     <label htmlFor={"port"} className={"p-col-fixed"} style={{width:'120px'}}>Порт</label>
                     <div className={"p-col"}>
                         <span className="p-input-icon-right">
-                            <InputNumber id={"port"} value={config.port} onValueChange={changes} mode="decimal" useGrouping={false} />
+                            <InputNumber id={"port"} value={config.port} onValueChange={changes} disabled={checking} mode="decimal" useGrouping={false} />
                         </span>
                     </div>
                 </div>
@@ -116,7 +135,7 @@ function AppInstall(){
                     <div className="p-col">
                         <span className="p-input-icon-right">
                             <i className={"pi pi-user"} />
-                            <InputText id="username" value={config.username} onChange={changes} className={`${ !correct.username && ('p-invalid')}`} type="text"/>
+                            <InputText id="username" value={config.username} onChange={changes} disabled={checking} className={`${ !correct.username && ('p-invalid')}`} type="text"/>
                         </span>
                         { !correct.username && (<small id="address-help" className="p-invalid p-d-block">Укажите имя пользователя</small>)}
                     </div>
@@ -126,7 +145,7 @@ function AppInstall(){
                     <div className="p-col">
                         <span className="p-input-icon-right">
                             <i className={"pi pi-lock"} />
-                            <InputText id="password" value={config.password} onChange={changes}  type="password"/>
+                            <InputText id="password" value={config.password} onChange={changes} disabled={checking}  type="password"/>
                         </span>
                     </div>
                 </div>

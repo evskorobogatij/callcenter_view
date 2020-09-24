@@ -3,12 +3,15 @@
 namespace App\Controller;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\DBALException;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Flex\Configurator\EnvConfigurator;
+
+use Symfony\Component\Yaml\Yaml;
 
 class CoreController extends AbstractController
 {
@@ -16,21 +19,33 @@ class CoreController extends AbstractController
     //     * @Route("/{reactRouting}", name="core", requirements={"reactRouting"="^(?!api).+"}, defaults={"reactRouting": null})
     //
     /**
-     * @Route("/")
+     * @Route("/", name="home")
      */
-    public function index()
+    public function index(LoggerInterface $logger)
     {
-        return $this->render('core/index.html.twig', [
-            'controller_name' => 'CoreController',
-        ]);
+        $logger->info(__DIR__.'/../../config.yaml');
+        $logger->info(stream_resolve_include_path(__DIR__.'/../../config.yaml'));
+        if (stream_resolve_include_path(__DIR__.'/../../config.yaml')){
+            return $this->render('core/index.html.twig', [
+                'controller_name' => 'CoreController',
+            ]);
+        } else {
+            return $this->redirectToRoute("install");
+        }
+
     }
 
     /**
-     * @Route("/install")
+     * @Route("/install", name="install")
      * @return string
      */
     public function install(){
-        return $this->render('core/install.html.twig',[]);
+        if (!stream_resolve_include_path(__DIR__.'/../../config.yaml')){
+            return $this->render('core/install.html.twig',[]);
+        } else {
+            return $this->redirectToRoute("home");
+        }
+
     }
 
     /**
@@ -39,35 +54,39 @@ class CoreController extends AbstractController
      * @return JsonResponse
      */
     public function set_config(Request $request,Connection $connection):JsonResponse{
-
-
-//        $params = array_merge($request->query->all(),$request->request->all() );
         $data = json_decode($request->getContent(), true);
-
         $db_type=$data['db_type'];
-        $db=$data['db'];
-        $address=$data['address'];
-        $port=$data['port'];
-        $username=$data['username'];
-        $password=$data['password'];
+//        $db=$data['db'];
+//        $address=$data['address'];
+//        $port=$data['port'];
+//        $username=$data['username'];
+//        $password=$data['password'];
 
-        $dotenv = new Dotenv();
+        $config = [
+            'connections' => $data
+        ];
 
+        $yaml_config = Yaml::dump($config);
 
-        $db_path="$db_type://$username:$password@$address:$port/$db";
-        $_ENV['DATABASE_URL'] = $db_path;
-        $dotenv->overload(__DIR__.'/../../.env');
+        file_put_contents(__DIR__.'/../../config.yaml', $yaml_config);
 
-        $connection->close();
-        $connection->connect();
-        $ping=$connection->ping();
+        $err = '';
+        try {
+            $err = $connection->changeDatabase();
+        } catch (\Throwable  $t){
+            $err = $t->getMessage();
+        }
+
+        try {
+            $connection->ping();
+        } catch (DBALException $exception){
+            $err = $exception->getMessage();
+        }
+        $connected = $connection->isConnected();
 
         return $this->json([
-                'ping' => $ping,
-                'attr' => $data,
-                '$db_type' => $db_type,
-//                '$db_path' =>$db_path,
-                'env' => $_ENV
+                'connected' => $connected,
+                'error' => mb_convert_encoding($err, 'UTF-8', 'UTF-8')
             ]);
     }
 }

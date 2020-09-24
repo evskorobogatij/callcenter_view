@@ -5,6 +5,7 @@
         "php": ">=7.2.5",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "ext-json": "*",
         "composer/package-versions-deprecated": "^1.11",
         "doctrine/doctrine-bundle": "^2.1",
         "doctrine/doctrine-migrations-bundle": "^3.0",
@@ -20,8 +21,7 @@
         "symfony/webpack-encore-bundle": "^1.7",
         "symfony/yaml": "5.1.*",
         "twig/extra-bundle": "^2.12|^3.0",
-        "twig/twig": "^2.12|^3.0",
-      "ext-json": "*"
+        "twig/twig": "^2.12|^3.0"
     },
     "require-dev": {
         "symfony/maker-bundle": "^1.21"
