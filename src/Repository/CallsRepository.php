@@ -152,6 +152,11 @@ class CallsRepository
                                                       where date_format(time,'%Y-%m-%d')=? 
                                                       and event in ('COMPLETEAGENT','COMPLETECALLER' ) ",[$date]);
 
+        $operator_compliate = $this->conn->fetchAssoc("select count(1) cn  from  queue_log 
+                                            where date_format(time,'%Y-%m-%d')=? and event='COMPLETEAGENT' ",[$date]);
+        $caller_compliate = $this->conn->fetchAssoc("select count(1) cn  from  queue_log 
+                                            where date_format(time,'%Y-%m-%d')=? and event='COMPLETECALLER' ",[$date]);
+
         $data = [
             'calls' => $did['cn'],
             'answered_calls' => $answered_calls['cn'],
@@ -160,7 +165,9 @@ class CallsRepository
             'not_aswered' => $not_aswered['cn'],
             'mid_wait_time' => $mid_wait_time['val'],
             'max_wait_time' => $max_wait_time['val'],
-            'mid_call_time' => $mid_call_time['val']
+            'mid_call_time' => $mid_call_time['val'],
+            'operator_compliate' => $operator_compliate['cn'],
+            'caller_compliate' => $caller_compliate['cn']
         ];
 
         return $data;

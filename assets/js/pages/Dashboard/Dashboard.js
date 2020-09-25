@@ -15,6 +15,7 @@ import {format_minutes} from '../../lib/common'
 
 import './Dashboard.scss';
 import CardCalsDistribution from "../../cards/CardCallsDistribution";
+import CardCallEnd from "../../cards/CardCallsEnd/CardCallEnd";
 
 
 export default function Dashboard(props) {
@@ -27,7 +28,9 @@ export default function Dashboard(props) {
         not_aswered: 0,
         mid_wait_time: 0,
         mid_call_time: 0,
-        max_wait_time: 0
+        max_wait_time: 0,
+        operator_compliate: 0,
+        caller_compliate: 0
     });
 
 
@@ -105,6 +108,11 @@ export default function Dashboard(props) {
                     <div className="p-col-12 p-sm-6 p-md-6 p-lg-6">
                         <TelBox title={"Максимальное время ожидания"}  value={format_minutes(callsStatus.max_wait_time)} />
                     </div>
+
+                    <div className="p-col-12 p-sm-12 p-md-6 p-lg-12 p-xl-6">
+                        <CardCallEnd operator={callsStatus.operator_compliate} caller={callsStatus.caller_compliate} />
+                    </div>
+
                 </div>
 
                 <div className="p-col-12 p-lg-6">

@@ -1,0 +1,49 @@
+
+.CardCallEnd-textBlock {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.CardCallEnd-textBlock_vales {
+  font-weight: bold;
+  font-size: 24px;
+}
+
+.CardCallEnd-bar {
+  display: flex;
+  height: 16px;
+  overflow: hidden;
+  line-height: 0;
+  font-size: .75rem;
+  background-color: #e9ecef;
+  //border-radius: .25rem;
+  border-radius: 4px;
+}
+
+.CardCallEnd-bar_left{
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -ms-flex-pack: center;
+  justify-content: center;
+  overflow: hidden;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+  background-color: #EB5757;
+;
+}
+
+.CardCallEnd-bar_right{
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -ms-flex-pack: center;
+  justify-content: center;
+  overflow: hidden;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+  background-color: #007bff;
+}
