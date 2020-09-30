@@ -2,8 +2,12 @@ import React from "react";
 import {Card} from "primereact/card";
 
 import "./CardCallEnd.scss"
+import AnimatedNumber from "animated-number-react";
 
 function CardCallEnd(props) {
+
+    const formatValue = value => `${Number(value).toFixed(0)}`;
+
     return (
         <Card title={"Кто положил трубку?"} >
             <div className={"CardCallEnd-textBlock"}
@@ -14,8 +18,21 @@ function CardCallEnd(props) {
             </div>
 
             <div className={"CardCallEnd-textBlock"} >
-                <div className={'CardCallEnd-textBlock_vales'}>{props.operator}</div>
-                <div className={'CardCallEnd-textBlock_vales'}>{props.caller}</div>
+                <div className={'CardCallEnd-textBlock_vales'}>
+                    <AnimatedNumber
+                        value={props.operator}
+                        formatValue={formatValue}
+                        duration={900}
+                    />
+                </div>
+                <div className={'CardCallEnd-textBlock_vales'}>
+                    <AnimatedNumber
+                        value = {props.caller}
+                        formatValue={formatValue}
+                        duration={900}
+                    />
+
+                </div>
             </div>
 
             <div className={"CardCallEnd-bar"}>
