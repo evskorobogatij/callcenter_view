@@ -108,6 +108,12 @@ class CallsRepository
         return $d;
     }
 
+    function work_state($date){
+        $str = "select agent, count(1) count  from  queue_log where date_format(time,'%Y-%m-%d')=? and event='CONNECT' group by agent ";
+        $d = $this->conn->fetchAll($str,[$date]);
+        return $d;
+    }
+
     function calls_summary($date){
         $did = $this->conn->fetchAssoc("select count(1) cn  from  queue_log 
                                             where date_format(time,'%Y-%m-%d')=? and event='DID' ",[$date]);

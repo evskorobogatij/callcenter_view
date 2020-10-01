@@ -16,7 +16,7 @@
 /bin
 /node_modules
 
-
+config.yaml
 ###> symfony/webpack-encore-bundle ###
 /node_modules/
 /public/build/

@@ -35,6 +35,7 @@ export default function Dashboard(props) {
 
 
     const [notAnswerAgents,setNotAnsweredAgents] = React.useState([])
+    const [workState, setWorkState] = React.useState([])
 
     const [timer,setTimer] = React.useState(null)
 
@@ -46,6 +47,7 @@ export default function Dashboard(props) {
         console.log(s_date)
         fetch(`/api/calls_summary/${s_date}`).then(response => response.json()).then(result => setCallsStatus(result))
         fetch(`/api/not_answer_agents/${s_date}`).then(response => response.json()).then(result =>setNotAnsweredAgents(result))
+        fetch(`/api/work_state/${s_date}`).then(response => response.json()).then(result=>setWorkState(result))
     }
 
     React.useEffect(()=>{
@@ -119,7 +121,20 @@ export default function Dashboard(props) {
                     <CardCalsDistribution date={props.date}/>
                 </div>
 
+                <div className="p-col-12 p-lg-6">
+                    <Card title={"Количество обработанных звонков"} >
+                        <DataTable
+                            value={workState}
+                            removableSort
+                        >
+                            <Column field={'agent'} header={'Оператор'} />
+                            <Column field={'count'} header={'Кол-во'} sortable />
+                        </DataTable>
+                    </Card>
+                </div>
+
             </div>
+
 
         </>
     )

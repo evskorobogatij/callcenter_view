@@ -39,6 +39,17 @@ class ApiCoreController extends AbstractController
     }
 
     /**
+     * @Route("/work_state/{date}")
+     * @param $date
+     * @param CallsRepository $callsRepository
+     * @return JsonResponse
+     */
+    function work_state($date,CallsRepository $callsRepository):JsonResponse{
+        $data = $callsRepository->work_state($date);
+        return $this->json($data);
+    }
+
+    /**
      * @Route("/calls_summary/{date}")
      * @param $date
      * @param CallsRepository $callsRepository
