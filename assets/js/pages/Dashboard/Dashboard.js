@@ -83,7 +83,7 @@ export default function Dashboard(props) {
                     <TelCard title={"Отклонено"} detail={"Оператор отклонил звонок"} call_type={'abandon'} count={callsStatus.rejected_calls}/>
                 </div>
 
-                <div className="p-col-12 p-lg-6">
+                <div className="p-col-12 p-md-6 p-lg-3">
                     <Card title={"Неотвечающие операторы"} >
                         <DataTable
                             value={notAnswerAgents}
@@ -95,33 +95,7 @@ export default function Dashboard(props) {
                     </Card>
                 </div>
 
-                <div className="p-col p-fluid sub-box" >
-                    <div className="p-col-12 p-sm-6 p-md-6 p-lg-6">
-                        <TelBox title={"Не отвечено звонков"} value={callsStatus.not_aswered} />
-                    </div>
-                    <div className="p-col-12 p-sm-6 p-md-6 p-lg-6">
-                        <TelBox title={"Среднее время ожидания"} value={format_minutes(callsStatus.mid_wait_time)} />
-                    </div>
-
-                    <div className="p-col-12 p-sm-6 p-md-6 p-lg-6">
-                        <TelBox title={"Среднее время разговора"} value={format_minutes(callsStatus.mid_call_time)} />
-                    </div>
-
-                    <div className="p-col-12 p-sm-6 p-md-6 p-lg-6">
-                        <TelBox title={"Максимальное время ожидания"}  value={format_minutes(callsStatus.max_wait_time)} />
-                    </div>
-
-                    <div className="p-col-12 p-sm-12 p-md-6 p-lg-12 p-xl-6">
-                        <CardCallEnd operator={callsStatus.operator_compliate} caller={callsStatus.caller_compliate} />
-                    </div>
-
-                </div>
-
-                <div className="p-col-12 p-lg-6">
-                    <CardCalsDistribution date={props.date}/>
-                </div>
-
-                <div className="p-col-12 p-lg-6">
+                <div className="p-col-12 p-md-6 p-lg-6">
                     <Card title={"Количество обработанных звонков"} >
                         <DataTable
                             value={workState}
@@ -131,6 +105,32 @@ export default function Dashboard(props) {
                             <Column field={'count'} header={'Кол-во'} sortable />
                         </DataTable>
                     </Card>
+                </div>
+
+                <div className="p-col p-fluid sub-box p-md-12 p-lg-3" >
+                    <div className="p-col-12 p-sm-6 p-md-6 p-lg-12">
+                        <TelBox title={"Не отвечено звонков"} value={callsStatus.not_aswered} />
+                    </div>
+                    <div className="p-col-12 p-sm-6 p-md-6 p-lg-12">
+                        <TelBox title={"Среднее время ожидания"} value={format_minutes(callsStatus.mid_wait_time)} />
+                    </div>
+
+                    <div className="p-col-12 p-sm-6 p-md-6 p-lg-12">
+                        <TelBox title={"Среднее время разговора"} value={format_minutes(callsStatus.mid_call_time)} />
+                    </div>
+
+                    <div className="p-col-12 p-sm-6 p-md-6 p-lg-12">
+                        <TelBox title={"Максимальное время ожидания"}  value={format_minutes(callsStatus.max_wait_time)} />
+                    </div>
+
+                </div>
+
+                <div className="p-col-12 p-lg-6">
+                    <CardCalsDistribution date={props.date}/>
+                </div>
+
+                <div className="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-3 p-xl-offset-3">
+                    <CardCallEnd operator={callsStatus.operator_compliate} caller={callsStatus.caller_compliate} />
                 </div>
 
             </div>
