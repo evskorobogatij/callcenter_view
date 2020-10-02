@@ -16,6 +16,7 @@ import {format_minutes} from '../../lib/common'
 import './Dashboard.scss';
 import CardCalsDistribution from "../../cards/CardCallsDistribution";
 import CardCallEnd from "../../cards/CardCallsEnd/CardCallEnd";
+import {Link} from "react-router-dom";
 
 
 export default function Dashboard(props) {
@@ -71,7 +72,9 @@ export default function Dashboard(props) {
             {/*<p>данные на {props.date.toISOString().slice(0,10)} </p>*/}
             <div className="p-grid p-fluid">
                 <div className="p-col-12 p-sm-6 p-md-6 p-lg-3">
-                    <TelCard title={"Звонки"} detail={"Количество поступивших звонков"} call_type={'incomming'} count={callsStatus.calls} />
+                    <Link to={"did_log"} style={{ textDecoration: 'none' }} >
+                        <TelCard title={"Звонки"} detail={"Количество поступивших звонков"} call_type={'incomming'} count={callsStatus.calls} />
+                    </Link>
                 </div>
                 <div className="p-col-12 p-sm-6 p-md-6 p-lg-3">
                     <TelCard title={"Обработано"} detail={"Обработаные звонки"} call_type={'answered'} count={callsStatus.answered_calls}/>

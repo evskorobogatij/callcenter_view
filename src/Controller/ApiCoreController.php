@@ -93,4 +93,14 @@ class ApiCoreController extends AbstractController
         return $this->json($data);
     }
 
+    /**
+     * @Route("/did_log")
+     * @param CallsRepository $callsRepository
+     * @return JsonResponse
+     */
+    public function did_log(CallsRepository $callsRepository):JsonResponse{
+        $data = $callsRepository->did_log();
+        return $this->json($data);
+    }
+
 }
