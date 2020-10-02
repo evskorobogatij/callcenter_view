@@ -216,4 +216,14 @@ class CallsRepository
         return $data;
     }
 
+    function answered_calls_log(){
+        $str="select date_format(time,'%Y-%m-%d') as dt, count(1) cn from queue_log 
+                 where event='CONNECT' 
+                group by dt
+                order by dt desc
+                limit 30";
+        $data = $this->conn->fetchAll($str);
+        return $data;
+    }
+
 }

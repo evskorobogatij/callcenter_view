@@ -14,6 +14,7 @@ import CallsList from '../../pages/CallsList/CallsList'
 
 import './Appw.scss'
 import CallsInputGraph from "../../pages/CallsGraph/CallsInputGraph";
+import CallsAnsweredGraph from "../../pages/CallsGraph/CallsAnsweredGraph";
 
 function App() {
 
@@ -37,6 +38,9 @@ function App() {
                     </Route>
                     <Route path={"/did_log"}  >
                         <CallsInputGraph date={date}/>
+                    </Route>
+                    <Route path={"/answered_calls_log"} >
+                        <CallsAnsweredGraph/>
                     </Route>
                     <Redirect from={"/"} to={"/dashboard"} />
                 </RouteSwitch>
