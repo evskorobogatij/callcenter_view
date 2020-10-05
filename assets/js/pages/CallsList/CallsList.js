@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useRef} from 'react';
 
 import { DataTable } from 'primereact/datatable'
 import {Column} from "primereact/column";
@@ -25,7 +25,7 @@ import {phoneTemplate,
 export default function CallsList(props) {
 
     const [callList, setCallList] = React.useState([])
-    const [timer,setTimer] = React.useState(null)
+    const timer = useRef()
 
     const [agents,setAgents] = React.useState([]);
 
@@ -60,12 +60,18 @@ export default function CallsList(props) {
         let s_date = moment(props.date).format("YYYY-MM-DD");
         let c_date = moment().format("YYYY-MM-DD");
         (s_date===c_date) ?
-            setTimer(setInterval(getCallsList,120000))
-         :  clearInterval(timer)
+            timer.current = setInterval(getCallsList,120000)
+         :  clearInterval(timer.current)
 
         getCallsList()
 
         fetch("/api/agents").then(response=>response.json()).then(result=>setAgents(result));
+
+        return (
+            ()=>{
+                clearInterval(timer.current)
+            }
+        )
     },[props.date])
 
     React.useEffect(()=>{
@@ -85,10 +91,8 @@ export default function CallsList(props) {
         setSelectedCall(e.data.callid)
     }
 
-
     const resultFilter = <Dropdown value={selectedStatus} options={statuses} onChange={e => setSelectedStatus(e.value)} className="p-column-filter" showClear />
     const agentFilter =  <Dropdown value={selectedAgent} options={agents} onChange={e => setSelectedAgent(e.value)} placeholder={'по оператору'} showClear className={"p-column-filter"} autoWidth />
-
 
     const exportData=()=>{
         dt.exportCSV()

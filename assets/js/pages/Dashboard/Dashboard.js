@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import ReactDOM from 'react-dom';
 
 import moment from 'moment';
@@ -34,11 +34,10 @@ export default function Dashboard(props) {
         caller_compliate: 0
     });
 
-
     const [notAnswerAgents,setNotAnsweredAgents] = React.useState([])
     const [workState, setWorkState] = React.useState([])
 
-    const [timer,setTimer] = React.useState(null)
+    const timerRef = useRef()
 
     console.log(props)
     const s = "ddd"
@@ -54,12 +53,18 @@ export default function Dashboard(props) {
     React.useEffect(()=>{
         let s_date = moment(props.date).format("YYYY-MM-DD");
         let c_date = moment().format("YYYY-MM-DD");
-        if (s_date===c_date)
-            setTimer(setInterval(getCallsData,5000))
+        if (s_date===c_date) {
+            //setTimer(setInterval(getCallsData,5000))
+            const v = setInterval(() => getCallsData(), 5000)
+            timerRef.current = v
+        }
         else
-            clearInterval(timer)
+            clearInterval(timerRef.current)
 
         getCallsData()
+        return ()=>{
+            clearInterval(timerRef.current)
+        }
     },[props.date])
 
     React.useEffect(()=>{
