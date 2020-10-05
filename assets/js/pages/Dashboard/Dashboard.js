@@ -66,28 +66,33 @@ export default function Dashboard(props) {
         console.log(callsStatus)
     },[callsStatus])
 
+    const style={
+        a : {
+            textDecoration: 'none'
+        }
+    }
     return (
         <>
             <h1>Панель управления</h1>
             {/*<p>данные на {props.date.toISOString().slice(0,10)} </p>*/}
             <div className="p-grid p-fluid">
                 <div className="p-col-12 p-sm-6 p-md-6 p-lg-3">
-                    <Link to={"did_log"} style={{ textDecoration: 'none' }} >
+                    <Link to={"did_log"} style={style.a} >
                         <TelCard title={"Звонки"} detail={"Количество поступивших звонков"} call_type={'incomming'} count={callsStatus.calls} />
                     </Link>
                 </div>
                 <div className="p-col-12 p-sm-6 p-md-6 p-lg-3">
-                    <Link to={"answered_calls_log"} style={{ textDecoration: 'none' }}>
+                    <Link to={"answered_calls_log"} style={style.a}>
                         <TelCard title={"Обработано"} detail={"Обработаные звонки"} call_type={'answered'} count={callsStatus.answered_calls}/>
                     </Link>
                 </div>
                 <div className="p-col-12 p-sm-6 p-md-6 p-lg-3">
-                    <Link to={"abandon_calls_log"} style={{ textDecoration: 'none' }} >
+                    <Link to={"abandon_calls_log"} style={style.a} >
                         <TelCard title={"Пропущено"} detail={"Пропущеные звонки"} call_type={'notanswered'} count={callsStatus.abandon}/>
                     </Link>
                 </div>
                 <div className="p-col-12 p-sm-6 p-md-6 p-lg-3">
-                    <Link to={"rejected_calls_log"} style={{textDecoration:'none'}} >
+                    <Link to={"rejected_calls_log"} style={style.a} >
                         <TelCard title={"Отклонено"} detail={"Оператор отклонил звонок"} call_type={'abandon'} count={callsStatus.rejected_calls}/>
                     </Link>
                 </div>
