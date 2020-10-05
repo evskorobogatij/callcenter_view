@@ -6,4 +6,9 @@ function format_minutes(value) {
     return (m ? `${m} м. ` : '') + ( s ? `${s} c` : '')
 }
 
-export {format_minutes}
+const statuses = [
+    'Оператор положил трубку',
+    'Абонент положил трубку',
+    'Пропушеный вызов'
+]
+export {format_minutes, statuses}

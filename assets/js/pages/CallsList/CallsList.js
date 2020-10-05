@@ -8,7 +8,7 @@ import {Button} from "primereact/button";
 import {OverlayPanel} from "primereact/overlaypanel";
 import {Checkbox} from "primereact/checkbox";
 import {CallDetail} from "./../../components/CallDetail/CallDetail"
-import {format_minutes} from '../../lib/common'
+import {format_minutes, statuses} from '../../lib/common'
 
 import './CallsList.scss';
 import {phoneTemplate,
@@ -21,7 +21,6 @@ import {phoneTemplate,
     inputPhoneTemplate,
     waitTemplate} from "./CellTemplates";
 
-
 export default function CallsList(props) {
 
     const [callList, setCallList] = React.useState([])
@@ -31,11 +30,6 @@ export default function CallsList(props) {
 
     const [selectedStatus,setSelectedStatus] = React.useState('')
     const [selectedAgent, setSelectedAgent] = React.useState('')
-    const statuses = [
-        'Оператор положил трубку',
-        'Абонент положил трубку',
-        'Пропушеный вызов'
-    ]
 
     const [dt,setDt] = React.useState(null)
     const [cols,setCols] = React.useState({
