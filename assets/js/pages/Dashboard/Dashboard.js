@@ -87,7 +87,9 @@ export default function Dashboard(props) {
                     </Link>
                 </div>
                 <div className="p-col-12 p-sm-6 p-md-6 p-lg-3">
-                    <TelCard title={"Отклонено"} detail={"Оператор отклонил звонок"} call_type={'abandon'} count={callsStatus.rejected_calls}/>
+                    <Link to={"rejected_calls_log"} style={{textDecoration:'none'}} >
+                        <TelCard title={"Отклонено"} detail={"Оператор отклонил звонок"} call_type={'abandon'} count={callsStatus.rejected_calls}/>
+                    </Link>
                 </div>
 
                 <div className="p-col-12 p-md-6 p-lg-3">

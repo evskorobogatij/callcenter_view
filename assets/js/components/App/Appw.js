@@ -16,6 +16,7 @@ import './Appw.scss'
 import CallsInputGraph from "../../pages/CallsGraph/CallsInputGraph";
 import CallsAnsweredGraph from "../../pages/CallsGraph/CallsAnsweredGraph";
 import CallsAbandonGraph from "../../pages/CallsGraph/CallsAbandonGraph";
+import CallsRejectedGraph from "../../pages/CallsGraph/CallsRejectedGraph";
 
 function App() {
 
@@ -44,6 +45,7 @@ function App() {
                         <CallsAnsweredGraph/>
                     </Route>
                     <Route path={"/abandon_calls_log"} component={CallsAbandonGraph}/>
+                    <Route path={"/rejected_calls_log"} component={CallsRejectedGraph}/>
                     <Redirect from={"/"} to={"/dashboard"} />
                 </RouteSwitch>
             </div>

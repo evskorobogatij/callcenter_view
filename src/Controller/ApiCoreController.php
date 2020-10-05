@@ -122,4 +122,15 @@ class ApiCoreController extends AbstractController
         $data = $callsRepository->abandon_calls_log();
         return $this->json($data);
     }
+
+    /**
+     * @Route("/rejected_calls_log")
+     * @param CallsRepository $callsRepository
+     * @return JsonResponse
+     */
+    public function rejected_calls_log(CallsRepository $callsRepository):JsonResponse{
+        $data = $callsRepository->rejected_calls_log();
+        return $this->json($data);
+    }
+
 }
