@@ -31,14 +31,15 @@ export default function CallsList(props) {
     const [selectedStatus,setSelectedStatus] = React.useState('')
     const [selectedAgent, setSelectedAgent] = React.useState('')
 
-    const [dt,setDt] = React.useState(null)
+    // const [dt,setDt] = React.useState(null)
+    const table = useRef()
     const [cols,setCols] = React.useState({
         isQueuename:localStorage.getItem('isQueuename') !== 'false',
         isPos:localStorage.getItem('isPos') !== 'false',
         isInputPhone:localStorage.getItem('isInputPhone') !== 'false'
     })
-    const [op,setOp] = React.useState(null)
-    // fetch("/api/agents").then(response=>response.json()).then(result=>setAgents(result));
+
+    const op = useRef()
 
     const [callDetail,setCalDetail] = React.useState(false)
     const [selectedCall,setSelectedCall] = React.useState(null)
@@ -70,13 +71,13 @@ export default function CallsList(props) {
 
     React.useEffect(()=>{
         console.log('Выбранные агент :',selectedAgent)
-        if(dt)
-            dt.filter(selectedAgent,'agent','equals')
+        if(table)
+            table.current.filter(selectedAgent,'agent','equals')
     },[selectedAgent])
 
     React.useEffect(()=>{
-        if(dt)
-            dt.filter(selectedStatus,'d_type','equals')
+        if(table)
+            table.current.filter(selectedStatus,'d_type','equals')
     },[selectedStatus])
 
     const rowClicked = (e) => {
@@ -89,14 +90,14 @@ export default function CallsList(props) {
     const agentFilter =  <Dropdown value={selectedAgent} options={agents} onChange={e => setSelectedAgent(e.value)} placeholder={'по оператору'} showClear className={"p-column-filter"} autoWidth />
 
     const exportData=()=>{
-        dt.exportCSV()
+        table.current.exportCSV()
     }
 
     const header = <div className={"CallList-header"}>
                     <h1>Список звонков</h1>
                     <div className={"CallLits-header-buttons"}>
                         <Button type={"button"} icon={"pi pi-save"} label={"Экспорт"} onClick={exportData} />
-                        <Button type="button" icon="pi pi-cog" label="Опции" onClick={(e)=>op.toggle(e)} />
+                        <Button type="button" icon="pi pi-cog" label="Опции" onClick={(e)=>op.current.toggle(e)} />
                    </div>
                   </div>;
 
@@ -121,7 +122,7 @@ export default function CallsList(props) {
     return (
         <div className={"CallsList-resp"}>
 
-            <OverlayPanel ref={(el)=>setOp(el)} showCloseIcon dismissable >
+            <OverlayPanel ref={op} showCloseIcon dismissable >
                 <div className="p-field-checkbox">
                     <Checkbox inputId="isQueuename" name="isQueuename"  checked={cols.isQueuename} onChange={handleColumnConfig} />
                     <label htmlFor="isQueuename">Очередь</label>
@@ -139,7 +140,7 @@ export default function CallsList(props) {
             <CallDetail showed={callDetail} setShowed={setCalDetail} call={selectedCall} />
 
             <DataTable value={callList}
-                       ref={(el)=>setDt(el)}
+                       ref={table}
                        selectionMode="single"
                        onRowClick={e => rowClicked(e)}
                        dataKey={'callid'}
