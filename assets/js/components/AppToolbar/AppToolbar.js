@@ -4,6 +4,7 @@ import {Button} from "primereact/button";
 
 import {Calendar} from "primereact/calendar";
 import {Menu} from "primereact/menu";
+import {ru} from "../../lib/calendar_names";
 
 import "./AppToolbar.scss"
 
@@ -14,17 +15,6 @@ function AppToolbar(props) {
 
     const curDate = new Date();
     const d = curDate.toISOString().slice(0,10);
-    const ru = {
-        firstDayOfWeek: 1,
-        dayNames: ["понедельник", "вторник", "среда", "четверг", "пятница", "суббота", "Воскресенье"],
-        dayNamesShort: ["Вс","Пн", "Вт", "Ср", "Чт", "Пт", "Сб"],
-        dayNamesMin: [ "Вс","Пн", "Вт", "Ср", "Чт", "Пт", "Сб"],
-        monthNames: ["январь", "февраль", "март", "апрель", "май", "июнь", "июль", "август", "сентябрь", "октюбрь", "ноябрь", "декабрь"],
-        monthNamesShort: ["янв", "фев", "мар", "апр", "май", "ин", "ил", "авг", "сен", "окт", "ноя", "дек"],
-        today: "Сегодня",
-        clear: "Очистить"
-    };
-
 
     const dateChanged = (e) => {
         console.log(e.value)
@@ -53,8 +43,6 @@ function AppToolbar(props) {
         <>
             <Button icon="pi pi-bars" id="toggleMenu" onClick={(event)=>navMenu.current.toggle(event)} />
             <Menu popup id={"popup_menu"} model={menu_items} ref={navMenu} />
-            {/*<Button label="New" icon="pi pi-plus" className="p-mr-2" />*/}
-            {/*<Button label="Upload" icon="pi pi-upload" className="p-button-success" />*/}
             <span className={'AppToolbar-title'}>Мониторинг звонков</span>
         </>
     );
