@@ -5,8 +5,6 @@ import {Column} from "primereact/column";
 import moment from "moment";
 import {Dropdown} from "primereact/dropdown";
 import {Button} from "primereact/button";
-import {OverlayPanel} from "primereact/overlaypanel";
-import {Checkbox} from "primereact/checkbox";
 import {CallDetail} from "./../../components/CallDetail/CallDetail"
 import {format_minutes, statuses} from '../../lib/common'
 
@@ -20,6 +18,7 @@ import {phoneTemplate,
     calltimeTemplate,
     inputPhoneTemplate,
     waitTemplate} from "./CellTemplates";
+import ConfigPanel from "./ConfigPanel";
 
 export default function CallsList(props) {
 
@@ -122,20 +121,7 @@ export default function CallsList(props) {
     return (
         <div className={"CallsList-resp"}>
 
-            <OverlayPanel ref={op} showCloseIcon dismissable >
-                <div className="p-field-checkbox">
-                    <Checkbox inputId="isQueuename" name="isQueuename"  checked={cols.isQueuename} onChange={handleColumnConfig} />
-                    <label htmlFor="isQueuename">Очередь</label>
-                </div>
-                <div className="p-field-checkbox">
-                    <Checkbox inputId="isPos" name="isPos" checked={cols.isPos} onChange={handleColumnConfig} />
-                    <label htmlFor="isPos">Начальная позиция в очереди</label>
-                </div>
-                <div className="p-field-checkbox">
-                    <Checkbox inputId="isInputPhone" name="isInputPhone" checked={cols.isInputPhone} onChange={handleColumnConfig} />
-                    <label htmlFor="isInputPhone">Внутрений номер</label>
-                </div>
-            </OverlayPanel>
+            <ConfigPanel ref={op} cols={cols} handler={handleColumnConfig} />
 
             <CallDetail showed={callDetail} setShowed={setCalDetail} call={selectedCall} />
 
