@@ -1,5 +1,5 @@
 import {Dialog} from "primereact/components/dialog/Dialog";
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {CallTimeLine} from "../CallTimeLine/CallTimeLine";
 
 
@@ -7,17 +7,19 @@ import {CallTimeLine} from "../CallTimeLine/CallTimeLine";
 function CallDetail(props) {
 
     const [callData,setCallData] = React.useState([])
+    const [loaded,setLoaded] = useState(false)
 
     useEffect(()=>{
+        setCallData([]);
         if (props.call){
             const d = props.call.replace('.','_')
-            fetch(`/api/call_detail/${d}`).then(response=>response.json()).then(result=>setCallData(result))
+            fetch(`/api/call_detail/${d}`).then(response=>response.json()).then(result=>setCallData(result)).then(()=>setLoaded(true))
         }
     },[props.call])
 
     const hide=()=>{
         props.setShowed(false)
-        setCallData([])
+        // setCallData([])
     }
 
     return (
@@ -26,7 +28,11 @@ function CallDetail(props) {
                 {props.showed &&
                     (
                         <div>
-                            <CallTimeLine callData={callData}/>
+                            {
+                                loaded ? <CallTimeLine callData={callData}/>
+                                       : <div style={{textAlign:'center'}}><i className="pi pi-spin pi-spinner" style={{'fontSize': '8em'}}></i></div>
+                            }
+
                         </div>
                     )
                 }
