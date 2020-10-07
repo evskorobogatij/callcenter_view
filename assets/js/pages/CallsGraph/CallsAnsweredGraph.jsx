@@ -57,7 +57,7 @@ function CallsAnsweredGraph() {
                 <h1>Количество обработанных звонков по дням</h1>
             </div>
 
-            <Chart type={"bar"} data={basicData}/>
+            <Chart type={"bar"} data={basicData} height={120}/>
 
         </>
     )

@@ -72,7 +72,7 @@ function CallsInputGraph(props) {
                 <h1>Количество звонков по дням</h1>
             </div>
 
-            <Chart type={"bar"} data={basicData}/>
+            <Chart type={"bar"} data={basicData} height={120}/>
 
         </>
     )
