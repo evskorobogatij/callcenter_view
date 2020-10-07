@@ -61,6 +61,11 @@
     display: none;
   }
 
+  .p-datatable-header {
+    padding-top: 0.1rem;
+    padding-bottom: 0.1rem;
+  }
+
   @media only screen and (max-width: 800px) {
     .p-datatable {
       &.CallsList-table {
