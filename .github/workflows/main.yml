@@ -7,6 +7,8 @@ name: CI
 on:
   push:
     branches: [ master ]
+    tags: 
+      - 'v*
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -36,3 +38,10 @@ jobs:
            
       - name: webpack front
         run: yarn encore prod 
+        
+      - name: Archive production artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: package_t
+          path: |
+            public        
