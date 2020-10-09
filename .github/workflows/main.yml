@@ -50,10 +50,10 @@ jobs:
 #            templates
 #            vendor   
             
-      - name: Build project 
+      - name: Pack project 
         run: |
-          ls -l
-          zip  callcenter_view public config src template vendor .env        
+          ls -la
+          zip  callcenter_view public/ config/ src/ template/ vendor/ .env        
          
       - name: Create Release
         id: create_release
