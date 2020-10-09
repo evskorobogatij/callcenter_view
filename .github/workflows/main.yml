@@ -51,9 +51,12 @@ jobs:
 #            vendor   
             
       - name: Pack project 
-        run: |
-          ls -la
-          zip  callcenter_view public/ config/ src/ template/ vendor/ .env        
+        uses: edgarrc/action-7z@v1.0.4
+        with: 
+          args:  7z a -tzip -mx=7 callcenter_view public/ src/ templates/ config/ .env 
+ #       run: |
+ #         ls -la
+ #         zip  callcenter_view public/ config/ src/ template/ vendor/ .env        
          
       - name: Create Release
         id: create_release
