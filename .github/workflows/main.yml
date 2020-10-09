@@ -42,6 +42,10 @@ jobs:
       - name: Archive production artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: package_t
+          name: callcenter_view
           path: |
-            public        
+            public
+            config
+            src
+            templates
+            vendor        
