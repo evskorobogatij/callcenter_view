@@ -39,19 +39,20 @@ jobs:
       - name: webpack front
         run: yarn encore prod 
         
-      - name: Archive production artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: callcenter_view
-          path: |
-            public
-            config
-            src
-            templates
-            vendor   
+#      - name: Archive production artifacts
+#        uses: actions/upload-artifact@v2
+#        with:
+#          name: callcenter_view
+#          path: |
+#            public
+#            config
+#            src
+#            templates
+#            vendor   
             
       - name: Build project 
         run: |
+          ls -l
           zip  callcenter_view /public /config /src /template /vendor         
          
       - name: Create Release
