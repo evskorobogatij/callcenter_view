@@ -6,9 +6,9 @@ name: CI
 # events but only for the master branch
 on:
   push:
-    branches: [ master ]
-#    tags: 
-#      - 'v*
+#    branches: [ master ]
+    tags: 
+      - 'v*
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -39,13 +39,39 @@ jobs:
       - name: webpack front
         run: yarn encore prod 
         
-      - name: Archive production artifacts
-        uses: actions/upload-artifact@v2
+#      - name: Archive production artifacts
+#        uses: actions/upload-artifact@v2
+#        with:
+#          name: callcenter_view
+#          path: |
+#            public
+#            config
+#            src
+#            templates
+#            vendor   
+            
+      - name: Build project 
+        run: |
+          zip  callcenter_view /public /config /src /template /vendor         
+         
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          name: callcenter_view
-          path: |
-            public
-            config
-            src
-            templates
-            vendor        
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: false
+      - name: Upload Release Asset
+        id: upload-release-asset 
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+          asset_path: ./callcenter_view.zip
+          asset_name: callcenter_view.zip
+          asset_content_type: application/zip            
+            
