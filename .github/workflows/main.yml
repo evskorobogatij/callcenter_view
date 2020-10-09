@@ -53,7 +53,7 @@ jobs:
       - name: Build project 
         run: |
           ls -l
-          zip  callcenter_view /public /config /src /template /vendor         
+          zip  callcenter_view public config src template vendor .env        
          
       - name: Create Release
         id: create_release
