@@ -20,45 +20,19 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
     # - uses: egordm/gha-yarn-node-cache@v1
-
-      # Runs a single command using the runners shell
-      - name: Build begin
-        run: echo Building callcenter_view
         
       - name: Setup php and conposer
         uses: php-actions/composer@v2 
         
-#      - name: Install composer dependencies
-#        run: composer install
-
-#      - name: Validate composer.json and composer.lock
-#        run: composer validate
-
-#      - name: Cache Composer packages
-#        id: composer-cache
-#        uses: actions/cache@v2
-#        with:
-#          key:      
-#	        path: vendor
-#        	key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
-#	        restore-keys: |
-#        	  ${{ runner.os }}-php-
-
-#      - name: Install dependencies
-#        if: steps.composer-cache.outputs.cache-hit != 'true'
-#        run: composer install --prefer-dist --no-progress --no-suggest
-        
-      - name: Use Node.js 
+      - name: Setup node for yarn 
         uses: actions/setup-node@v1
 
+      
       - run: npm install -g yarn
-      - name: yarn install, build, and test
+        
+      - name: setup yarn dependencies
         run: |
          yarn install
-         yarn build        
-         
-    #  - name: Install yarn dependencies
-    #    run: yarn install
-        
-      - name: Build
+           
+      - name: webpack front
         run: yarn encore prod 
