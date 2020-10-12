@@ -39,16 +39,16 @@ jobs:
       - name: webpack front
         run: yarn encore prod 
         
-#      - name: Archive production artifacts
-#        uses: actions/upload-artifact@v2
-#        with:
-#          name: callcenter_view
-#          path: |
-#            public
-#            config
-#            src
-#            templates
-#            vendor   
+      - name: Archive production artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: callcenter_view
+          path: |
+            public
+            config
+            src
+            templates
+            vendor   
             
       - name: Pack project 
         uses: edgarrc/action-7z@v1.0.4
@@ -58,24 +58,24 @@ jobs:
  #         ls -la
  #         zip  callcenter_view public/ config/ src/ template/ vendor/ .env        
          
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-          draft: false
-          prerelease: false
-      - name: Upload Release Asset
-        id: upload-release-asset 
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }} 
-          asset_path: ./callcenter_view.zip
-          asset_name: callcenter_view.zip
-          asset_content_type: application/zip            
+#      - name: Create Release
+#        id: create_release
+#        uses: actions/create-release@v1
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#        with:
+#          tag_name: ${{ github.ref }}
+#          release_name: Release ${{ github.ref }}
+#          draft: false
+#          prerelease: false
+#      - name: Upload Release Asset
+#        id: upload-release-asset 
+#        uses: actions/upload-release-asset@v1
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#        with:
+#          upload_url: ${{ steps.create_release.outputs.upload_url }} 
+#          asset_path: ./callcenter_view.zip
+#          asset_name: callcenter_view.zip
+#          asset_content_type: application/zip            
             
