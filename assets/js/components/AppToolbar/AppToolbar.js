@@ -35,6 +35,13 @@ function AppToolbar(props) {
             command:(e)=>{
                 window.location.hash = "/calls_list"
             }
+        },
+        {
+            label:'Работа сотрудников',
+            icon: 'pi pi-info-circle',
+            command:(e)=>{
+                window.location.hash = "/agent_work"
+            }
         }
     ]
 

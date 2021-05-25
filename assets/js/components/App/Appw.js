@@ -17,6 +17,7 @@ import CallsInputGraph from "../../pages/CallsGraph/CallsInputGraph";
 import CallsAnsweredGraph from "../../pages/CallsGraph/CallsAnsweredGraph";
 import CallsAbandonGraph from "../../pages/CallsGraph/CallsAbandonGraph";
 import CallsRejectedGraph from "../../pages/CallsGraph/CallsRejectedGraph";
+import {AgentWork} from "../../pages/AgentWork/AgentWork";
 
 function App() {
 
@@ -37,6 +38,9 @@ function App() {
                     </Route>
                     <Route path='/calls_list' >
                         <CallsList date={date} />
+                    </Route>
+                    <Route path={"/agent_work"} >
+                        <AgentWork date={date}/>
                     </Route>
                     <Route path={"/did_log"}  >
                         <CallsInputGraph date={date}/>
