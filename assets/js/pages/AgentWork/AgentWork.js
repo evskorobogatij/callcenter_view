@@ -5,6 +5,7 @@ import {Column} from "primereact/column";
 import moment from "moment";
 
 import {callDuration, callEventTemplate, phoneTemplate, timeTemplate, waitTemplate} from "../../lib/CellTemplates";
+import {Button} from "primereact/button";
 
 function AgentWork(props) {
 
@@ -26,6 +27,10 @@ function AgentWork(props) {
                 setLoading(false)
             }
         )
+    }
+
+    const exportData=()=>{
+        table.current.exportCSV()
     }
 
     useEffect(() => {
@@ -64,6 +69,7 @@ function AgentWork(props) {
                 <h1 style={{marginTop: '8px', marginBottom: '8px'}}>Информация о агенте</h1>
                 <div className={"CallLits-header-buttons"}>
                     <Dropdown options={agents} value={selectedAgent} placeholder={"Выберите агента"} onChange={e => setSelectedAgent(e.value)} autoWidth/>
+                    <Button type={"button"} icon={"pi pi-save"} label={"Экспорт"} onClick={exportData} />
                 </div>
             </div>
 
