@@ -6,6 +6,9 @@ import moment from "moment";
 
 import {callDuration, callEventTemplate, phoneTemplate, timeTemplate, waitTemplate} from "../../lib/CellTemplates";
 import {Button} from "primereact/button";
+import {Link} from "react-router-dom";
+import {Card as TelCard} from "../../components/Card/Card";
+import {format_minutes} from "../../lib/common";
 
 function AgentWork(props) {
 
@@ -15,6 +18,11 @@ function AgentWork(props) {
     const timer = useRef()
 
     const [inputCalls, setInputCalls] = useState([])
+    const [callsStatus,setCallsStatus] = useState({
+        missed: 0,
+        answered: 0,
+        duration: 0
+    })
 
     const table = useRef()
 
@@ -27,6 +35,16 @@ function AgentWork(props) {
                 setLoading(false)
             }
         )
+    }
+
+    const getAgentWorkStatic = () => {
+        setCallsStatus({
+            missed: 0,
+            answered: 0,
+            duration: 0
+        })
+        let s_date = moment(props.date).format("YYYY-MM-DD");
+        fetch(`/api/agent_work_statistic/${s_date}/${selectedAgent}`).then(response => response.json()).then(result => setCallsStatus(result))
     }
 
     const exportData=()=>{
@@ -42,6 +60,7 @@ function AgentWork(props) {
             :  clearInterval(timer.current)
 
         getInputCalls()
+        getAgentWorkStatic()
         return (
             ()=>{
                 clearInterval(timer.current)
@@ -74,6 +93,18 @@ function AgentWork(props) {
             </div>
 
 
+            <div className="p-grid p-fluid">
+                <div className="p-col-12 p-sm-6 p-md-6 p-lg-3">
+                        <TelCard title={"Звонки"} detail={"Количество обработаных звонков"} call_type={'incomming'} count={callsStatus.answered} />
+                </div>
+                <div className={"p-col-12 p-sm-6 p-md-6 p-lg-3"}>
+                    <TelCard title={"Пропущеные"} detail={"Количество пропущеных звонков"} call_type={'abandon'} count={callsStatus.missed}/>
+                </div>
+                <div className={"p-col-12 p-sm-6 p-md-6 p-lg-3"}>
+                    <TelCard title={`Длительность`} detail={"Общее время работы оператора"} call_type={'answered'} noanimate count={`${format_minutes(callsStatus.duration)}`} />
+                </div>
+
+            </div>
 
             <div className={"CallsList-resp"}>
                 <DataTable
@@ -82,7 +113,7 @@ function AgentWork(props) {
                     selectionMode="single"
                     dataKey={'callid'}
                     className="CallsList-table"
-                    paginator rows={10}
+                    paginator rows={9}
                     removableSort
                     // resizableColumns
                     // columnResizeMode="fit"

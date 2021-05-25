@@ -12,11 +12,15 @@ function Card(props) {
             <div className={'Card-title'}>{props.title}</div>
             <div className={'Card-detail'}>{props.detail}</div>
             <div className={`Card-count Calls-${props.call_type}`}>
-                <AnimatedNumber
-                    value={props.count}
-                    formatValue={formatValue}
-                    duration={900}
-                />
+                {
+                    props.noanimate ? (<>{props.count}</>)
+                        :(<AnimatedNumber
+                            value={props.count}
+                            formatValue={formatValue}
+                            duration={900}
+                        />)
+                }
+
 
             </div>
         </div>
