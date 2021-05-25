@@ -117,6 +117,29 @@ class CallsRepository
         return $data;
     }
 
+    function agent_work_statistic($date,string $agent){
+        $str_miss = "SELECT count(1) cn FROM asteriskcdrdb.queue_log
+                    where agent=? and date_format(time,'%Y-%m-%d')=?	
+                    and event in ('RINGNOANSWER','RINGCANCELED');";
+        $missed = $this->conn->fetchAssoc($str_miss,[$agent,$date]);
+
+        $str_answered = "SELECT count(1) cn FROM asteriskcdrdb.queue_log
+                        where agent=? and date_format(time,'%Y-%m-%d')=?	
+                        and event='CONNECT';";
+        $answered = $this->conn->fetchAssoc($str_answered,[$agent,$date]);
+
+        $str_duration = "SELECT sum(data2) as sum FROM asteriskcdrdb.queue_log
+                            where agent=? and date_format(time,'%Y-%m-%d')=?
+                            and event in ('COMPLETEAGENT','COMPLETECALLER'	);";
+        $duration = $this->conn->fetchAssoc($str_duration,[$agent,$date]);
+        $data = [
+            'missed' => $missed['cn'],
+            'answered' => $answered['cn'],
+            'duration' => $duration['sum']
+        ];
+        return $data;
+    }
+
     function not_answer($date){
         $str = "select agent, count(1) count  from  queue_log where date_format(time,'%Y-%m-%d')=? and event='RINGNOANSWER' group by agent ";
         $d = $this->conn->fetchAll($str,[$date]);

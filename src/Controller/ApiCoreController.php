@@ -40,6 +40,18 @@ class ApiCoreController extends AbstractController
     }
 
     /**
+     * @Route("/agent_work_statistic/{date}/{agent}")
+     * @param $date
+     * @param string $agent
+     * @param CallsRepository $callsRepository
+     * @return JsonResponse
+     */
+    public function agent_work_statistic($date,string $agent,CallsRepository $callsRepository):JsonResponse{
+        $data = $callsRepository->agent_work_statistic($date,$agent);
+        return $this->json($data);
+    }
+
+    /**
      * @Route("/not_answer_agents/{date}")
      * @param $date
      * @param CallsRepository $callsRepository
