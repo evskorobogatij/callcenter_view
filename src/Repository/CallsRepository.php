@@ -102,6 +102,21 @@ class CallsRepository
         return $t;
     }
 
+    function agent_work($date,string $agent){
+        $str = "SELECT enter.data2 as phone, input_call.time, input_call.event, 
+                end_call.event event_end, end_call.data1 as wait, end_call.data2 as duration  /*input_call.* */
+             FROM asteriskcdrdb.queue_log as input_call
+            LEFT JOIN queue_log as enter on(enter.callid=input_call.callid 
+                                         and enter.event='ENTERQUEUE')                             
+            LEFT JOIN queue_log as end_call on (end_call.callid=input_call.callid  and input_call.event='CONNECT' and end_call.event in ('COMPLETEAGENT','COMPLETECALLER') )
+            where input_call.agent=? and date_format(input_call.time,'%Y-%m-%d')=?							
+            and input_call.event in ( 'RINGNOANSWER','CONNECT','RINGCANCELED')
+            order by input_call.time";
+
+        $data = $this->conn->fetchAll($str,[$agent,$date]);
+        return $data;
+    }
+
     function not_answer($date){
         $str = "select agent, count(1) count  from  queue_log where date_format(time,'%Y-%m-%d')=? and event='RINGNOANSWER' group by agent ";
         $d = $this->conn->fetchAll($str,[$date]);
